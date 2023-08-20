@@ -482,5 +482,16 @@
 ; it's not just doubling the amount of work. It's creating a whole
 ; new branch of recursive calls, which is exponential in nature.
 
+; Exercise 1.27
+(define (carmichael-test n)
+    (define (passes? num)
+        (= (expmod num n n) num))
+    (define (iter count)
+        (or (= count n)
+            (and (passes? count) (iter (+ count 1)))))
+    (iter 1))
+
+; (map carmichael-test'(561 1105 1729 2465 2821 6601))
+; => (#t #t #t #t #t #t)
 
 (display "===[ END ]===\n")
