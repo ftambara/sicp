@@ -305,6 +305,28 @@
               ((= (remainder num count) 0) count)
               (else (iter (+ count 1)))))
     (iter 2))
-            
+
+; xy modulo n = ((x modulo m)*(y modulo m) modulo m)
+(define (expmod base exp m)
+    (cond
+        ((= exp 0) 1)
+        ((even? exp) 
+         (modulo (square (expmod base (/ exp 2) m)) m))
+        (else
+         (modulo (* (modulo base m) (expmod base (- exp 1) m)) m))))
+
+(define (randrange min max)
+    (+ (random (- max min)) min))
+
+(define (fermats_test num)
+    (define (passes? a)
+        (= (expmod a num num) a))
+    (passes? (randrange 1 num)))
+
+(define (prime? num times)
+    (cond ((= times 0) #t)
+          ((fermats_test num) (prime? num (- times 1)))
+          (else #f)))
+
 
 (display "===[ END ]===\n")
