@@ -328,5 +328,13 @@
           ((fermats_test num) (prime? num (- times 1)))
           (else #f)))
 
+; Exercise 1.21
+(smallest_divisor 199); => 199
+; Check: (prime? 199 1000); => #t
+(smallest_divisor 1999); => 1999
+; Check: (prime? 1999 1000); => #t
+(smallest_divisor 19999); => 7
+; Check: (= (modulo 19999 7) 0) => #t
+
 
 (display "===[ END ]===\n")
