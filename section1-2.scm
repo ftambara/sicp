@@ -433,5 +433,11 @@
 ; 10e11     660.7               444.0               1.49
 ; The new timings do have a proportional time reduction, but the factor
 ; was measured to be 1.5 instead of the expected 2.
+; Apparently, the improved smallest_divisor procedure does not exactly
+; halve the number of steps. This could be due to the introduced if clause,
+; and the additional indirection through the next function call, both of
+; which are now evaluated for every iteration.
+; Some of the time saved in skipped steps is taken by aditional operations
+; which are also proportional to n.
 
 (display "===[ END ]===\n")
