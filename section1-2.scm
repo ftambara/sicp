@@ -328,6 +328,9 @@
           ((fermats_test num) (prime? num (- times 1)))
           (else #f)))
 
+(define (prime? num)
+    (= (smallest_divisor num) num))
+
 ; Exercise 1.21
 (smallest_divisor 199); => 199
 ; Check: (prime? 199 1000); => #t
@@ -336,5 +339,76 @@
 (smallest_divisor 19999); => 7
 ; Check: (= (modulo 19999 7) 0) => #t
 
+; Exercise 1.22
+(define (timed-prime-test n)
+    (define (report-prime elapsed-time)
+        (display " *** ")
+        (display elapsed-time))
+    (define (start-prime-test start-time)
+        (newline)
+        (display n)
+        (if (prime? n)
+            (report-prime (- (real-time-clock) start-time))))
+    (start-prime-test (real-time-clock)))
+
+(define (search-for-primes start end)
+    (define (iter num)
+        (cond ((even? num) (iter (+ num 1)))
+              ((> num end) (display "\nDone.\n"))
+              (else (timed-prime-test num)
+                    (iter (+ num 2)))))
+    (iter start))
+
+; (search-for-primes 1000 1020)
+
+; 1001
+; 1003
+; 1005
+; 1007
+; 1009 *** 0
+; 1011
+; 1013 *** 0
+; 1015
+; 1017
+; 1019 *** 0
+
+; (search-for-primes 10000 10040)
+
+; 10001
+; 10003
+; 10005
+; 10007 *** 0
+; 10009 *** 0
+; 10011
+; ...
+; 10035
+; 10037 *** 0
+; 10039 *** 0
+
+; (search-for-primes 100000 100050)
+
+; 100001
+; 100003 *** 1
+; 100005
+; ...
+; 100017
+; 100019 *** 0
+; 100021
+; ...
+; 100041
+; 100043 *** 0
+; 100045
+; 100047
+; 100049 *** 0
+
+; Due to the insufficient granularity of these timings,
+; here are the timing averages for the some larger primes.
+; n         time (ms)  growth   expected_growth
+; 10e7      2.25       1        1
+; 10e8      10.25      4.5      3.16
+; 10e9      21.25      9.4      10
+; 10e10     66.75      29.7     31.62
+; The expirimental timings seems to follow the growth
+; pattern expected from the prime? O(sqrt(n)) operations growth.
 
 (display "===[ END ]===\n")
