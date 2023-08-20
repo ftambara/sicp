@@ -323,9 +323,9 @@
         (= (expmod a num num) a))
     (passes? (randrange 1 num)))
 
-(define (prime? num times)
+(define (fast-prime? num times)
     (cond ((= times 0) #t)
-          ((fermats_test num) (prime? num (- times 1)))
+          ((fermats_test num) (fast-prime? num (- times 1)))
           (else #f)))
 
 ; (define (prime? num)
@@ -439,5 +439,31 @@
 ; which are now evaluated for every iteration.
 ; Some of the time saved in skipped steps is taken by aditional operations
 ; which are also proportional to n.
+
+; Exercise 1.24
+(define (timed-prime-test n)
+    (define (report-prime elapsed-time)
+        (display " *** ")
+        (display elapsed-time))
+    (define (start-prime-test start-time)
+        (newline)
+        (display n)
+        (if (fast-prime? n 1000)
+            (report-prime (- (real-time-clock) start-time))))
+    (start-prime-test (real-time-clock)))
+
+; n         time (ms)   difference
+; 10e8      41.75       -
+; 10e9      49.8        8.05
+; 10e10     59.7        9.9
+; 10e11     60.3        0.6
+; 10e12     62.7        2.4
+; 10e13     72.5        9.8
+; I would expect the difference_with_last to show constant time
+; increases for each successive order of magnitude.
+; What seems to happen, however, is that the time difference is
+; bounded to around 10 ms. Some cases, like the increase from
+; n = 10e10 to 10e11, show almost no increase in processing time.
+; The evidence, however, seems to support a logarithmic-like growth.
 
 (display "===[ END ]===\n")
