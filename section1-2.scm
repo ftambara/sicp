@@ -328,8 +328,8 @@
           ((fermats_test num) (prime? num (- times 1)))
           (else #f)))
 
-(define (prime? num)
-    (= (smallest_divisor num) num))
+; (define (prime? num)
+;     (= (smallest_divisor num) num))
 
 ; Exercise 1.21
 (smallest_divisor 199); => 199
@@ -410,5 +410,28 @@
 ; 10e11     660.7       3.12
 ; The expirimental timings follow the expected growth pattern
 ; from the prime? procedure (which is O(sqrt(n))) accurately.
+
+(define (prime? num)
+    (= (fast_smallest_divisor num) num))
+
+; Exercise 1.23
+(define (fast_smallest_divisor num)
+    (define (next num)
+        (if (= num 2)
+            3
+            (+ num 2)))
+    (define (iter count)
+        (cond ((> (square count) num) num); No divisor greater than sqrt(num)
+              ((= (remainder num count) 0) count)
+              (else (iter (next count)))))
+    (iter 2))
+
+; n         slower_time (ms)    faster_time (ms)    reduction (times)
+; 10e8       20.75               14.0               1.48
+; 10e9       67.0                44.5               1.5
+; 10e10     212.0               142.2               1.49
+; 10e11     660.7               444.0               1.49
+; The new timings do have a proportional time reduction, but the factor
+; was measured to be 1.5 instead of the expected 2.
 
 (display "===[ END ]===\n")
