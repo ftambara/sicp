@@ -494,4 +494,37 @@
 ; (map carmichael-test'(561 1105 1729 2465 2821 6601))
 ; => (#t #t #t #t #t #t)
 
+; Exercise 1.28
+(define expmod-signal 0)
+(define (expmod base exp m)
+    (define (expmod-signal? num)
+        (and (not (or (= num 1) (= num (- m 1))))
+             (= (modulo (square num) m) 1)))
+
+    (cond ((= exp 0) 1)
+          ((even? exp) 
+            (let ((next_exp (expmod base (/ exp 2) m)))
+                 (if (expmod-signal? next_exp)
+                     expmod-signal
+                     (modulo (square next_exp) m))))
+          (else
+            (modulo (* (modulo base m) (expmod base (- exp 1) m)) m))))
+
+(define (mr-test n)
+    (define (passes? num)
+        (= (expmod num (- n 1) n) 1))
+    (passes? (randrange 1 n)))
+
+(define (mr-fast-prime? n times)
+    (if (= times 0) 
+        #t
+        (and (mr-test n) (mr-fast-prime? n (- times 1)))))
+
+; (map (lambda (x) (mr-fast-prime? x 1000)) '(3 5 7 11))
+; => (#t #t #t #t)
+; (map (lambda (x) (mr-fast-prime? x 1000)) '(4 15 21 25))
+; => (#f #f #f #f)
+; (map (lambda (x) (mr-fast-prime? x 1000)) '(561 1105 1729 2465 2821 6601))
+; => (#f #f #f #f #f #f)
+
 (display "===[ END ]===\n")
