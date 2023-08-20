@@ -475,6 +475,12 @@
 ; an average of 3.3 seconds per prime, more than two orders of magnitude
 ; more than with the original expmod implementation.
 
+; Exercise 1.26
+; The trick for reducing the number of steps in the expmod procedure
+; is to use successive squaring. By invoking exmod twice for every
+; squared call, we defeat the purpose of the optimization. In fact,
+; it's not just doubling the amount of work. It's creating a whole
+; new branch of recursive calls, which is exponential in nature.
 
 
 (display "===[ END ]===\n")
