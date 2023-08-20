@@ -466,4 +466,15 @@
 ; n = 10e10 to 10e11, show almost no increase in processing time.
 ; The evidence, however, seems to support a logarithmic-like growth.
 
+; Exercise 1.25
+; Defining expmod using fast_exp was my first thought too.
+; However, it has the disadvantage of dealing with very large numbers too quickly,
+; so it's not useful for checking primality of all but the smallest numbers.
+; These thoughts are verified by experimental timings. For example,
+; computing (search-for-primes 10000 10050) using fast_exp takes
+; an average of 3.3 seconds per prime, more than two orders of magnitude
+; more than with the original expmod implementation.
+
+
+
 (display "===[ END ]===\n")
