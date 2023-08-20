@@ -299,5 +299,12 @@
 2
 ; total modulo evaluations = 4
 
+(define (smallest_divisor num)
+    (define (iter count)
+        (cond ((> (square count) num) num); No divisor greater than sqrt(num)
+              ((= (remainder num count) 0) count)
+              (else (iter (+ count 1)))))
+    (iter 2))
+            
 
 (display "===[ END ]===\n")
