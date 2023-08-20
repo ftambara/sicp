@@ -263,40 +263,40 @@
 
 ; Exercise 1.20
 ; Normal order
-(gcd 206 
-     40)
-     (= 40 0); -> #f
+; (gcd 206
+;      40)
+;      (= 40 0); -> #f
  
-(gcd 40 
-     (modulo 206 40))
-    (= (modulo 206 40) 0); -> #f +1
+; (gcd 40
+;      (modulo 206 40))
+;     (= (modulo 206 40) 0); -> #f +1
 
-(gcd (modulo 206 40) 
-     (modulo 40 (modulo 206 40)))
-    (= (modulo 40 (modulo 206 40)) 0); -> #f +2
+; (gcd (modulo 206 40)
+;      (modulo 40 (modulo 206 40)))
+;     (= (modulo 40 (modulo 206 40)) 0); -> #f +2
 
-(gcd (modulo 40 (modulo 206 40))
-     (modulo (modulo 206 40) (modulo 40 (modulo 206 40))))
-    (= (modulo (modulo 206 40) (modulo 40 (modulo 206 40))) 0); -> #f +4
+; (gcd (modulo 40 (modulo 206 40))
+;      (modulo (modulo 206 40) (modulo 40 (modulo 206 40))))
+;     (= (modulo (modulo 206 40) (modulo 40 (modulo 206 40))) 0); -> #f +4
 
-(gcd (modulo (modulo 206 40) (modulo 40 (modulo 206 40)))
-     (modulo (modulo 40 (modulo 206 40)) (modulo (modulo 206 40) (modulo 40 (modulo 206 40)))))
-    (= (modulo (modulo 40 (modulo 206 40)) (modulo (modulo 206 40) (modulo 40 (modulo 206 40))))); -> #t +7
+; (gcd (modulo (modulo 206 40) (modulo 40 (modulo 206 40)))
+;      (modulo (modulo 40 (modulo 206 40)) (modulo (modulo 206 40) (modulo 40 (modulo 206 40)))))
+;     (= (modulo (modulo 40 (modulo 206 40)) (modulo (modulo 206 40) (modulo 40 (modulo 206 40))))); -> #t +7
 
-(modulo (modulo 206 40) (modulo 40 (modulo 206 40))); -> 2 +4
+; (modulo (modulo 206 40) (modulo 40 (modulo 206 40))); -> 2 +4
 ; total modulo evaluations = 18
 
 ; Applicative order
-(gcd 206 40)
-(gcd 40 (modulo 206 40)); +1
-(gcd 40 6)
-(gcd 6 (modulo 40 6)); +1
-(gcd 6 4)
-(gcd 4 (modulo 6 4)); +1
-(gcd 4 2)
-(gcd 2 (modulo 4 2)); +1
-(gcd 2 0)
-2
+; (gcd 206 40)
+; (gcd 40 (modulo 206 40)); +1
+; (gcd 40 6)
+; (gcd 6 (modulo 40 6)); +1
+; (gcd 6 4)
+; (gcd 4 (modulo 6 4)); +1
+; (gcd 4 2)
+; (gcd 2 (modulo 4 2)); +1
+; (gcd 2 0)
+; 2
 ; total modulo evaluations = 4
 
 (define (smallest_divisor num)
@@ -332,11 +332,11 @@
 ;     (= (smallest_divisor num) num))
 
 ; Exercise 1.21
-(smallest_divisor 199); => 199
+; (smallest_divisor 199); => 199
 ; Check: (prime? 199 1000); => #t
-(smallest_divisor 1999); => 1999
+; (smallest_divisor 1999); => 1999
 ; Check: (prime? 1999 1000); => #t
-(smallest_divisor 19999); => 7
+; (smallest_divisor 19999); => 7
 ; Check: (= (modulo 19999 7) 0) => #t
 
 ; Exercise 1.22
