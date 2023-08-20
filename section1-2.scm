@@ -403,12 +403,12 @@
 
 ; Due to the insufficient granularity of these timings,
 ; here are the timing averages for the some larger primes.
-; n         time (ms)  growth   expected_growth
-; 10e7      2.25       1        1
-; 10e8      10.25      4.5      3.16
-; 10e9      21.25      9.4      10
-; 10e10     66.75      29.7     31.62
-; The expirimental timings seems to follow the growth
-; pattern expected from the prime? O(sqrt(n)) operations growth.
+; n         time (ms)   growth_over_last
+; 10e8       20.75      -
+; 10e9       67.0       3.24
+; 10e10     212.0       3.16
+; 10e11     660.7       3.12
+; The expirimental timings follow the expected growth pattern
+; from the prime? procedure (which is O(sqrt(n))) accurately.
 
 (display "===[ END ]===\n")
