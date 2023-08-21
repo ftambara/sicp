@@ -1,3 +1,6 @@
+#lang racket
+
+
 (display "\n===[ START ]===\n")
 
 (define (echo x)
@@ -348,8 +351,9 @@
         (newline)
         (display n)
         (if (prime? n)
-            (report-prime (- (real-time-clock) start-time))))
-    (start-prime-test (real-time-clock)))
+            (report-prime (- (current-process-milliseconds) start-time))
+            (display " ")))
+    (start-prime-test (current-process-milliseconds)))
 
 (define (search-for-primes start end)
     (define (iter num)
@@ -441,7 +445,7 @@
 ; which are also proportional to n.
 
 ; Exercise 1.24
-(define (timed-prime-test n)
+(define (fast-timed-prime-test n)
     (define (report-prime elapsed-time)
         (display " *** ")
         (display elapsed-time))
@@ -449,8 +453,9 @@
         (newline)
         (display n)
         (if (fast-prime? n 1000)
-            (report-prime (- (real-time-clock) start-time))))
-    (start-prime-test (real-time-clock)))
+            (report-prime (- (current-process-milliseconds) start-time))
+            (display " ")))
+    (start-prime-test (current-process-milliseconds)))
 
 ; n         time (ms)   difference
 ; 10e8      41.75       -
@@ -496,23 +501,23 @@
 
 ; Exercise 1.28
 (define expmod-signal 0)
-(define (expmod base exp m)
+(define (mr-expmod base exp m)
     (define (expmod-signal? num)
         (and (not (or (= num 1) (= num (- m 1))))
              (= (modulo (square num) m) 1)))
 
     (cond ((= exp 0) 1)
           ((even? exp) 
-            (let ((next_exp (expmod base (/ exp 2) m)))
+            (let ((next_exp (mr-expmod base (/ exp 2) m)))
                  (if (expmod-signal? next_exp)
                      expmod-signal
                      (modulo (square next_exp) m))))
           (else
-            (modulo (* (modulo base m) (expmod base (- exp 1) m)) m))))
+            (modulo (* (modulo base m) (mr-expmod base (- exp 1) m)) m))))
 
 (define (mr-test n)
     (define (passes? num)
-        (= (expmod num (- n 1) n) 1))
+        (= (mr-expmod num (- n 1) n) 1))
     (passes? (randrange 1 n)))
 
 (define (mr-fast-prime? n times)

@@ -1,3 +1,6 @@
+#lang racket
+
+
 (display "\n===[ START ]===\n")
 
 (define (print x)
@@ -152,7 +155,7 @@
     (f-helper (+ 1 (* x y))
               (- 1 y)))
 
-(define (f x y)
+(define (f2 x y)
     ((lambda (a b)
         (+ (* (square a))
             (* y b)
@@ -160,7 +163,7 @@
         )) (+ 1 (* x y)
             (- 1 y))))
 
-(define (f x y)
+(define (f3 x y)
     (let
         ((a (+ 1 (* x y)))
          (b (- 1 y)))
@@ -302,13 +305,13 @@
 (define (fixed_point_of_transform g transform guess)
     (fixed_point (transform g) guess))
 
-(define (sqrt_damp x)
+(define (transformed_sqrt_damp x)
     (fixed_point_of_transform 
         (lambda (y) (/ x y))
         average_damp
         1.0))
 
-(define (sqrt_newton x)
+(define (transformed_sqrt_newton x)
     (fixed_point_of_transform
         (lambda (y) (- (square y) x))
         newton_transform
@@ -323,11 +326,11 @@
 ;             (se (first seq) (filter_list (bf seq) filter_fn)))
 ;           (else (filter_list (bf seq) filter_fn))))
 
-(define (roots a b c)
-    (lambda (discriminant)
-        (se (/ (+ (- b) discriminant) (* 2 a))
-            (/ (- (- b) discriminant) (* 2 a)) ))
-    ((sqrt (- (* b b) (* 4 a c)))))
+; (define (roots a b c)
+;    (lambda (discriminant)
+;        (se (/ (+ (- b) discriminant) (* 2 a))
+;            (/ (- (- b) discriminant) (* 2 a)) ))
+;    ((sqrt (- (* b b) (* 4 a c)))))
 
 ; Exercise 1.40
 (define (cubic a b c)
