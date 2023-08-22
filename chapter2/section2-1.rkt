@@ -99,3 +99,103 @@
 (define (start-segment segment) (car segment))
 
 (define (end-segment segment) (cdr segment))
+
+; Exercise 2.3
+
+; There are surely better ways to define a rectangle using the
+; language of vectors, right-handedness, and/or projections.
+; To keep things simple*, I'll define a rectangle using constructors
+; that depend on the user making the right calculations beforehand
+; (especially about orthogonality), and just check adequacy before
+; returning.
+; * That was unfortunatelly not true.
+
+(define (length-segment segment)
+    (sqrt (+ (square (- (x-point (end-segment segment))
+                        (x-point (start-segment segment))))
+             (square (- (y-point (end-segment segment))
+                        (y-point (start-segment segment)))))))
+
+(define (square x) (* x x))
+
+(define (dot-product vec1 vec2)
+    (+ (* (- (x-point (end-segment vec1))
+             (x-point (start-segment vec1)))
+          (- (x-point (end-segment vec2))
+             (x-point (start-segment vec2))))
+       (* (- (y-point (end-segment vec1))
+             (y-point (start-segment vec1)))
+          (- (y-point (end-segment vec2))
+             (y-point (start-segment vec2))))))
+
+(define (orthogonal? seg1 seg2)
+    (= (dot-product seg1 seg2) 0))
+
+(define (connected? seg1 seg2)
+    (or (equal? (start-segment seg1) (start-segment seg2))
+        (equal? (start-segment seg1) (end-segment seg2))
+        (equal? (end-segment seg1) (start-segment seg2))
+        (equal? (end-segment seg1) (end-segment seg2))))
+
+; First rectangle implementation
+
+; (define (make-rectangle base-segment side-segment)
+;     (cond ((not (orthogonal? base-segment side-segment))
+;             (error "Segments are not orthogonal"))
+;           ((not (connected? base-segment side-segment))
+;             (error "Segments are not connected"))
+;           (else (cons base-segment side-segment))))
+
+; (define (base-rectangle rectangle)
+;     (car rectangle))
+
+; (define (side-rectangle rectangle)
+;     (cdr rectangle))
+
+; Define in terms of a further abstraction barrier to allow
+; the rectangle implementation to change without affecting
+; the perimeter and area procedures.
+
+(define (perimeter rectangle)
+    (* 2 (+ (length-segment (base-rectangle rectangle))
+            (length-segment (side-rectangle rectangle)))))
+
+(define (area rectangle)
+    (* (length-segment (base-rectangle rectangle))
+       (length-segment (side-rectangle rectangle))))
+
+; Second rectangle implementation
+
+(define (make-rectangle base height)
+    (cons base height))
+
+(define (base-rectangle rectangle)
+    (car rectangle))
+
+(define (height-rectangle rectangle)
+    (cdr rectangle))
+
+(define (rotate-segment segment angle)
+    (let* ((end (end-segment segment))
+           (x (x-point end))
+           (y (y-point end))
+           (new-x (+ (* x (cos angle))
+                     (* y (sin angle))))
+           (new-y (- (* x (sin angle))
+                     (* y (cos angle)))))
+          (make-segment (start-segment segment)
+                        (make-point new-x new-y))))
+
+(define (stretch-segment segment scalar)
+    (let ((x-end (x-point (end-segment segment)))
+          (y-end (y-point (end-segment segment))))
+         (make-segment (start-segment segment)
+                       (make-point (* scalar x-end)
+                                   (* scalar y-end)))))
+
+
+(define (side-rectangle rectangle)
+    (let ((side-segment (rotate-segment (base-rectangle rectangle) (/ pi 2))))
+         (stretch-segment side-segment
+                          (/ (height-rectangle rectangle)
+                             (length-segment side-segment)))))
