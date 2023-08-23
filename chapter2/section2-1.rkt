@@ -219,3 +219,29 @@
     (z (lambda (p q) q)))
 
 (cdr-alt (cons-alt 5 6)); => 6
+
+; Exercise 2.5
+
+(define (cons-fact x y)
+    (* (expt 2 x) (expt 3 y)))
+
+(define (divisible? a b)
+    (= (modulo a b) 0))
+
+(define (car-fact z)
+    (define (iter start)
+        (cond ((< start 1) (error "Invalid pair."))
+              ((divisible? start 3) (iter (/ start 3)))
+              (else (exact-round (log start 2)))))
+    (iter z))
+
+(define (cdr-fact z)
+    (define (iter start)
+        (cond ((< start 1) (error "Invalid pair."))
+              ((divisible? start 2) (iter (/ start 2)))
+              (else (exact-round (log start 3)))))
+    (iter z))
+
+(define p (cons-fact 5 3))
+(car-fact p); => 5
+(cdr-fact p); => 3
