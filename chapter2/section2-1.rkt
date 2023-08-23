@@ -199,3 +199,23 @@
          (stretch-segment side-segment
                           (/ (height-rectangle rectangle)
                              (length-segment side-segment)))))
+
+; Exercise 2.4
+
+(define (cons-alt x y)
+    (lambda (m) (m x y)))
+
+(define (car-alt z)
+    (z (lambda (p q) p)))
+
+; (define pair (cons-alt 5 6)) 
+; p -> (lambda (m) (m 5 6))
+; (car-alt pair)
+; ((lambda (m) (m 5 6)) (lambda (p q) p))
+; ((lambda (p q) p) 5 6)
+; (5)
+
+(define (cdr-alt z)
+    (z (lambda (p q) q)))
+
+(cdr-alt (cons-alt 5 6)); => 6
