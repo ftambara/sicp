@@ -325,3 +325,40 @@
 (define (sub-interval x y)
     (make-interval (- (lower-bound x) (upper-bound y))
                    (- (upper-bound x) (lower-bound y))))
+
+; ====================================================================
+; Exercise 2.9
+
+(define (width-interval interval)
+    (/ (- (upper-bound interval) (lower-bound interval)) 2))
+
+; Using applicative order substitution:
+
+; (width-interval (add-interval (make-interval a b) (make-interval c d)))
+; ...
+; (width-interval (make-interval (+ a c) (+ b d)))
+; (/ (- (+ b d) (+ a c)) 2)
+
+; This is equivalent to
+
+; (/ (+ (- b a) (- d c)) 2)
+; (+ (/ (- b a) 2) (/ (- d c) 2))
+; (+ (width-interval (make-interval a b)) (width-interval (make-interval c d)))
+
+; This shows that the width of two added intervals is equivalent
+; to the sum of the widths of each interval. Therefore, the result
+; is dependent only the widths of the intervals.
+
+; In the case of multiplication, the following cases operate with
+; intervals of identical widths, yet the results are different:
+
+(width-interval (make-interval 5 9)); => 2
+(width-interval (mul-interval (make-interval 1 3)
+                              (make-interval 5 9))); => 11
+
+(width-interval (make-interval 2 6)); => 2
+(width-interval (mul-interval (make-interval 1 3)
+                              (make-interval 2 6))); => 8
+
+; These examples prove that the width of the product of two intervals
+; is not uniquely determined by the width of the factors.
