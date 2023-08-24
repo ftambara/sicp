@@ -312,10 +312,10 @@
     (cons a b))
 
 (define (upper-bound interval)
-    (cdr interval))
+    (max (car interval) (cdr interval)))
 
 (define (lower-bound interval)
-    (car interval))
+    (min (car interval) (cdr interval)))
 
 ; ====================================================================
 ; Exercise 2.8
