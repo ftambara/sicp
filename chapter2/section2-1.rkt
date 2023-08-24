@@ -316,3 +316,12 @@
 
 (define (lower-bound interval)
     (car interval))
+
+; ====================================================================
+; Exercise 2.8
+
+; When subtracting, the lower and upper bound of the subtrahend
+; get flipped due to the sign change
+(define (sub-interval x y)
+    (make-interval (- (lower-bound x) (upper-bound y))
+                   (- (upper-bound x) (lower-bound y))))
