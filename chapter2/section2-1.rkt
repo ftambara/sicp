@@ -374,3 +374,90 @@
     (if (spans? y 0)
         (error "Interval" y "includes 0.")
         (div-interval x y)))
+
+; ====================================================================
+; Exercise 2.11
+
+; Table of all possible sign combinations:
+; (+ +) (+ +)
+; (+ +) (+ -)   NOT VALID
+; (+ +) (- +)
+; (+ +) (- -)
+; (+ -) (+ +)   NOT VALID
+; (+ -) (+ -)   NOT VALID
+; (+ -) (- +)   NOT VALID
+; (+ -) (- -)   NOT VALID
+; (- +) (+ +)
+; (- +) (+ -)   NOT VALID
+; (- +) (- +)
+; (- +) (- -)
+; (- -) (+ +)
+; (- -) (+ -)  NOT VALID
+; (- -) (- +)
+; (- -) (- -)
+
+; Summary of valid cases
+; 1 (+ +) (+ +)   
+; 2 (+ +) (- +)   
+; 3 (+ +) (- -)   
+; 4 (- +) (+ +)   
+; 5 (- +) (- +)   
+; 6 (- +) (- -)   
+; 7 (- -) (+ +)   
+; 8 (- -) (- +)   
+; 9 (- -) (- -)   
+; Nine cases in total, as expected
+
+(define (positive? num)
+    (> num 0))
+
+(define (negative? num)
+    (< num 0))
+
+(define (mul-interval-ben x y)
+    (define n? negative?)
+    (define p? positive?)
+
+    (let ((lower-x (lower-bound x))
+          (upper-x (upper-bound x))
+          (lower-y (upper-bound y))
+          (upper-y (upper-bound y)))
+        (cond 
+            ; Zeroes treated as negative numbers. As far as max and min
+            ; logic goes, they don't make a difference.
+            ; 1 (+ +) (+ +)
+            ((and (p? lower-x) (p? lower-y))
+             (make-interval (* lower-x lower-y) (* upper-x upper-y)))
+
+            ; 2 (+ +) (-/0 +)
+            ((and (p? lower-x) (p? upper-y))
+             (make-interval (* upper-x lower-y) (* upper-x upper-y)))
+
+            ; 3 (+ +) (-/0 -/0)
+            ((p? lower-x)
+             (make-interval (* upper-x lower-y) (* lower-x lower-y)))
+
+            ; 4 (-/0 +) (+ +)
+            ((and (p? upper-x) (p? lower-y))
+             (make-interval (* lower-x upper-y) (* upper-x upper-y)))
+
+            ; 5 (-/0 +) (-/0 +)
+            ((and (p? upper-x) (p? upper-y))
+             (make-interval (min (* lower-x upper-y) (* upper-x lower-y))
+                            (max (* lower-x lower-y) (* upper-x upper-y))))
+
+            ; 6 (-/0 +) (-/0 -/0)
+            ((p? upper-x)
+             (make-interval (* upper-x lower-y) (* lower-x lower-y)))
+
+            ; 7 (-/0 -/0) (+ +)
+            ((p? lower-y)
+             (make-interval (* lower-x upper-y) (* upper-x lower-y)))
+
+            ; 8 (-/0 -/0) (-/0 +)
+            ((p? upper-y)
+             (make-interval (* lower-x upper-y) (* lower-x lower-y)))
+
+            ; 9 (-/0 -/0) (-/0 -/0)
+            (else
+             (make-interval (* upper-x upper-y) (* lower-x lower-y)))
