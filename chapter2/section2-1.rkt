@@ -362,3 +362,15 @@
 
 ; These examples prove that the width of the product of two intervals
 ; is not uniquely determined by the width of the factors.
+
+; ====================================================================
+; Exercise 2.10
+
+(define (spans? interval number)
+    (and (>= number (lower-bound interval))
+         (<= number (upper-bound interval))))
+
+(define (div-interval-safe x y)
+    (if (spans? y 0)
+        (error "Interval" y "includes 0.")
+        (div-interval x y)))
