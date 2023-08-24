@@ -58,11 +58,13 @@
         a
         (gcd b (modulo a b))))
 
+; ====================================================================
 ; Exercise 2.1
 ; The above algorith for gcd seems to do a good job
 ; at returning positive if a is positive, negative if
 ; b is negative. This already does the normalization we
 ; want. Just in case, here is a sign-checked version:
+
 (define (norm-make-rat num den)
     (let* ((divisor (gcd num den))
            (norm-div 
@@ -71,7 +73,9 @@
                     (abs divisor))))
          (cons (/ num norm-div) (/ den norm-div))))
 
+; ====================================================================
 ; Exercise 2.2
+
 (define (print-point p)
     (newline)
     (display "(")
@@ -100,6 +104,7 @@
 
 (define (end-segment segment) (cdr segment))
 
+; ====================================================================
 ; Exercise 2.3
 
 ; There are surely better ways to define a rectangle using the
@@ -200,6 +205,7 @@
                           (/ (height-rectangle rectangle)
                              (length-segment side-segment)))))
 
+; ====================================================================
 ; Exercise 2.4
 
 (define (cons-alt x y)
@@ -220,6 +226,7 @@
 
 (cdr-alt (cons-alt 5 6)); => 6
 
+; ====================================================================
 ; Exercise 2.5
 
 (define (cons-fact x y)
@@ -246,6 +253,7 @@
 (car-fact p); => 5
 (cdr-fact p); => 3
 
+; ====================================================================
 ; Exercise 2.6
 
 ; can manipulate procedures, we can get by without numbers
@@ -259,7 +267,7 @@
 ; inventor, Alonzo Church, the logician who invented the λ-calculus.
 ; Define one and two directly (not in terms of zero and add-1).
 
-(add-1 zero)
+; (add-1 zero)
 ; zero => (lambda (f) (lambda (x) x))
 ; add-1 => (lambda (f) (lambda (x) (f ((n f) x))))
 ; ((lambda (f) (lambda (x) (f (((lambda (f) (lambda (x) x)) f) x)))))
@@ -268,7 +276,7 @@
 
 (define one (lambda (f) (lambda (x) (f x))))
 
-(add-1 one)
+; (add-1 one)
 ; one (lambda (f) (lambda (x) (f x)))
 ; add-1 => (lambda (f) (lambda (x) (f ((n f) x))))
 ; (lambda (f) (lambda (x) (f (((lambda (f) (lambda (x) (f x))) f) x))))
@@ -297,7 +305,9 @@
         (make-interval (/ 1.0 (upper-bound y))
                        (/ 1.0 (lower-bound y)))))
 
+; ====================================================================
 ; Exercise 2.7
+
 (define (make-interval a b)
     (cons a b))
 
