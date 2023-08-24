@@ -245,3 +245,36 @@
 (define p (cons-fact 5 3))
 (car-fact p); => 5
 (cdr-fact p); => 3
+
+; Exercise 2.6
+
+; can manipulate procedures, we can get by without numbers
+; (at least insofar as nonnegative integers are concerned) by
+; implementing 0 and the operation of adding 1 as
+(define zero (lambda (f) (lambda (x) x)))
+
+(define (add-1 n)
+    (lambda (f) (lambda (x) (f ((n f) x)))))
+; this representation is known as Church numerals, afer its
+; inventor, Alonzo Church, the logician who invented the λ-calculus.
+; Define one and two directly (not in terms of zero and add-1).
+
+(add-1 zero)
+; zero => (lambda (f) (lambda (x) x))
+; add-1 => (lambda (f) (lambda (x) (f ((n f) x))))
+; ((lambda (f) (lambda (x) (f (((lambda (f) (lambda (x) x)) f) x)))))
+; ((lambda (f) (lambda (x) (f ((lambda (x) x) x)))))
+; ((lambda (f) (lambda (x) (f x))))
+
+(define one (lambda (f) (lambda (x) (f x))))
+
+(add-1 one)
+; one (lambda (f) (lambda (x) (f x)))
+; add-1 => (lambda (f) (lambda (x) (f ((n f) x))))
+; (lambda (f) (lambda (x) (f (((lambda (f) (lambda (x) (f x))) f) x))))
+; (lambda (f) (lambda (x) (f ((lambda (x) (f x)) x))))
+; (lambda (f) (lambda (x) (f (f x))))
+
+(define two (lambda (f) (lambda (x) (f (f x)))))
+
+; Remark: Church numerals are extremely concerning.
