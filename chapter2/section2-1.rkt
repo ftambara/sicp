@@ -597,3 +597,13 @@
                         (div-interval i7 two-int))); (c: 4.000, p: 1.000)
 ; It seems that division adds tolerances much like
 ; multiplication does, at least for small tolerance values.
+
+; ====================================================================
+; Exercise 2.15
+
+; Comparing the previous results (int-par1 and int-par2),
+; the second does have a center closer to the expected 1.125,
+; and less uncertainty.
+; My guess is that products between intervals grow the uncertainty,
+; thus avoiding such operations yields tighter results.
+; This is almost speculative, though.
