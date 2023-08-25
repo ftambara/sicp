@@ -473,3 +473,23 @@
 (define i5 (make-interval -4 5))
 (define i6 (make-interval -3 2))
 (mul-interval-ben i5 i6); => '(-15 . 12)
+
+; ====================================================================
+; Exercise 2.12
+
+(define (make-center-width c w)
+    (make-interval (- c w) (+ c w)))
+
+(define (center i)
+    (/ (+ (lower-bound i) (upper-bound i)) 2))
+
+(define (width i)
+    (/ (- (upper-bound i) (lower-bound i)) 2))
+
+(define (make-center-percent c p)
+    (make-center-width c (* c (/ p 100))))
+
+(define (percent interval)
+    (/ (* (/ (- (upper-bound interval) (lower-bound interval)) 2)
+          100)
+       (center interval)))
