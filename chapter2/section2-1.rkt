@@ -420,7 +420,7 @@
 
     (let ((lower-x (lower-bound x))
           (upper-x (upper-bound x))
-          (lower-y (upper-bound y))
+          (lower-y (lower-bound y))
           (upper-y (upper-bound y)))
         (cond 
             ; Zeroes treated as negative numbers. As far as max and min
@@ -460,4 +460,16 @@
 
             ; 9 (-/0 -/0) (-/0 -/0)
             (else
-             (make-interval (* upper-x upper-y) (* lower-x lower-y)))
+             (make-interval (* upper-x upper-y) (* lower-x lower-y))))))
+
+(define i1 (make-interval 4 5))
+(define i2 (make-interval 1 2))
+(mul-interval-ben i1 i2); => '(4 . 10)
+
+(define i3 (make-interval -4 5))
+(define i4 (make-interval -1 2))
+(mul-interval-ben i3 i4); => '(-8 . 10)
+
+(define i5 (make-interval -4 5))
+(define i6 (make-interval -3 2))
+(mul-interval-ben i5 i6); => '(-15 . 12)
