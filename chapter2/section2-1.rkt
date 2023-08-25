@@ -493,3 +493,61 @@
     (/ (* (/ (- (upper-bound interval) (lower-bound interval)) 2)
           100)
        (center interval)))
+
+; ====================================================================
+; Exercise 2.13
+
+; To get the width and center of the product,
+; we start by calculating its extremes.
+; (Assuming extremes of factors are themselves positive)
+;   low-bound = (ca - wa) (cb - wb)
+;       cx: center of interval x
+;       wx: width of interval x
+
+;   low-bound = (ca - ca * pa / 100) (cb - cb * pb / 100)
+;       px: percentage of interval x
+;   low-bound = ca cb (1 - pa / 100) (1 - pb / 100)
+;   low-bound = ca cb (1 - pa / 100 - pb / 100 + pa * pb / 100^2)
+
+; If both pa and pb are small, their product will be twice as small.
+; Therefore, by approximation
+;   low-bound = ca cb (1 - pa / 100 - pb / 100)
+
+; Similarly, we get
+;   upp-bound = ca cb (1 + pa / 100 + pb / 100)
+
+; With these bounds, we can calculate the width
+;   width = (upp-bound - low-bound) / 2
+;   width = ca cb ((pa / 100) + (pb / 100))
+
+; ...and the center of the product
+;   center = (upp-bound + low-bound) / 2
+;   center = ca cb
+
+; The tolerance percentage, then, can be expressed as
+; percentage = (width / center) * 100
+; percentage = pa + pb
+
+(define (tolerance interval)
+    (/ (percent interval) 100))
+
+(define (mul-interval-approx x y)
+    (define (small-enough? a b)
+        (< a (/ b 10)))
+    (cond ((not (small-enough?
+                (* (tolerance x) (tolerance y))
+                (/ (+ (tolerance x) (tolerance y)) 2)))
+            (display "\nTolerances too large, using backup function\n")
+            (mul-interval x y))
+          ((or (negative? (lower-bound x)) (negative? (lower-bound y)))
+            (display "\nSome intervals contain negative numbers, ")
+            (display "using backup function\n")
+            (mul-interval x y))
+          (else (make-center-percent (* (center x) (center y))
+                                     (+ (percent x) (percent y))))))
+            
+
+(define i7 (make-center-percent 4 1))
+(define i8 (make-center-percent 10 2))
+(mul-interval-approx i7 i8); => '(38.8, 41.2)
+(mul-interval i7 i8); => '(38.808, 41.208)
