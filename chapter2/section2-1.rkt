@@ -551,3 +551,49 @@
 (define i8 (make-center-percent 10 2))
 (mul-interval-approx i7 i8); => '(38.8, 41.2)
 (mul-interval i7 i8); => '(38.808, 41.208)
+
+; ====================================================================
+; Exercise 2.14
+
+(define (par1 r1 r2)
+    (div-interval (mul-interval r1 r2)
+                  (sum-interval r1 r2)))
+
+(define (par2 r1 r2)
+    (let ((one (make-interval 1 1)))
+        (div-interval
+            one
+            (sum-interval (div-interval one r1)
+                          (div-interval one r2)))))
+
+(define (print-cp interval)
+    ; Display floats with 3 decimal places
+    (display "(c: ")
+    (display (~r #:precision '(= 3) (center interval)))
+    (display ", p: ")
+    (display (~r #:precision '(= 3) (percent interval)))
+    (display ")\n"))
+
+(display "\nExercise 2.13\n")
+(print-cp i1); (c: 4.500, p: 11.111)
+(print-cp i2); (c: 1.500, p: 33.333)
+(define int-par1 (par1 i1 i2))
+(define int-par2 (par2 i1 i2))
+(print-cp int-par1); (c: 1.286, p: 55.556)
+(print-cp int-par2); (c: 1.114, p: 28.205)
+; Lem is right, the results are indeed different.
+
+; Some more tests
+(define one-int (make-interval 1 1))
+(print-cp i7); (c: 4.000, p: 1.000)
+(print-cp i8); (c: 10.000, p: 2.000)
+(print-cp (div-interval i7 i7)); (c: 1.000, p: 2.000)
+(print-cp (div-interval i8 i8)); (c: 1.001, p: 3.998)
+(print-cp (div-interval one-int i7)); (c: 0.250, p: 1.000)
+(print-cp (div-interval i7 i8)); (c: 0.400, p: 2.999)
+(print-cp (div-interval i8 i7)); (c: 2.501, p: 2.999)
+(define two-int (make-interval 2 2))
+(print-cp (sum-interval (div-interval i7 two-int)
+                        (div-interval i7 two-int))); (c: 4.000, p: 1.000)
+; It seems that division adds tolerances much like
+; multiplication does, at least for small tolerance values.
