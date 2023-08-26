@@ -12,3 +12,4 @@
 
 (require "exercises/2.17.rkt")
 (require "exercises/2.18.rkt")
+(require "exercises/2.19.rkt")
