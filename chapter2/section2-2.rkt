@@ -11,3 +11,4 @@
         (cons (car list1) (append-lists (cdr list1) list2))))
 
 (require "exercises/2.17.rkt")
+(require "exercises/2.18.rkt")
