@@ -607,3 +607,17 @@
 ; My guess is that products between intervals grow the uncertainty,
 ; thus avoiding such operations yields tighter results.
 ; This is almost speculative, though.
+
+; ====================================================================
+; Exercise 2.16
+
+; My first intuition is that equivalent algebraic expressions
+; operate under the assumption that variables represent one-dimensional
+; real numbers. That kind of algebra may not work for intervals.
+
+; After reading this person's solution
+; https://github.com/sarabander/p2pu-sicp/blob/master/2.1/2.16.scm
+; I've come to think that what I said above is more or less correct.
+; At leat in the sense that we need some special algebra to express
+; the fact that dealing with the same interval across an expression
+; should affect the results differently.
