@@ -14,3 +14,14 @@
 (require "exercises/2.18.rkt")
 (require "exercises/2.19.rkt")
 (require "exercises/2.20.rkt")
+
+
+(define (map-list func list_)
+    (if (null? list_)
+        list_
+        (cons (func (car list_)) (map-list (cdr list_) func))))
+
+(define (scale-list list_ factor)
+    (map-list (lambda (x) (* factor x)) list_))
+
+(require "exercises/2.21.rkt")
