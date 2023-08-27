@@ -27,3 +27,4 @@
 
 (require "exercises/2.21.rkt")
 (require "exercises/2.22.rkt")
+(require "exercises/2.23.rkt")
