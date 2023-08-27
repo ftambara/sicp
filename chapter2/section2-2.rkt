@@ -24,4 +24,6 @@
 (define (scale-list list_ factor)
     (map-list (lambda (x) (* factor x)) list_))
 
+
 (require "exercises/2.21.rkt")
+(require "exercises/2.22.rkt")

@@ -1,6 +1,12 @@
 #lang racket
 
-(provide time-procedure)
+(provide echo time-procedure)
+
+
+(define (echo x)
+    (display x)
+    (newline)
+    x)
 
 (define (time-procedure proc n)
     ; Show average and standard deviation
