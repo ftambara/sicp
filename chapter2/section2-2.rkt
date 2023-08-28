@@ -28,3 +28,18 @@
 (require "exercises/2.21.rkt")
 (require "exercises/2.22.rkt")
 (require "exercises/2.23.rkt")
+
+
+(define (length-list list_)
+    (define (iter count remain)
+        (if (null? remain)
+            count
+            (iter (+ count 1) (cdr remain))))
+    (iter 0 list_))
+
+(define (count-leaves tree)
+    (cond ((null? tree) 0)
+          ((not (pair? tree)) 1)
+          (else
+            (+ (count-leaves (car tree))
+               (count-leaves (cdr tree))))))
