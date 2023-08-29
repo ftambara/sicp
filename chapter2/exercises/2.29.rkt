@@ -112,3 +112,9 @@
 ; d. Change of representation
 ; Changes written below each original 
 ; definition in the top half of the file
+
+; Overall, I'd consider the changes to be as small
+; as possible, since the abstractions were
+; respected, with the possible exception of the
+; predicate functions which were developed with
+; my current limited knowledge about the language.
