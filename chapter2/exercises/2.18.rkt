@@ -19,18 +19,18 @@
         list_
         (append (reverse-list-app (cdr list_)) (list (car list_)))))
 
-(define list4 (build-list 10000 values))
-(define list5 (build-list 100000 values))
-(define list6 (build-list 1000000 values))
+; (define list4 (build-list 10000 values))
+; (define list5 (build-list 100000 values))
+; (define list6 (build-list 1000000 values))
 
-(display "reverse-list\n")
-(time-procedure (lambda () (reverse-list list4)) 10)
-(time-procedure (lambda () (reverse-list list5)) 10)
-(time-procedure (lambda () (reverse-list list6)) 10)
+; (display "reverse-list\n")
+; (time-procedure (lambda () (reverse-list list4)) 10)
+; (time-procedure (lambda () (reverse-list list5)) 10)
+; (time-procedure (lambda () (reverse-list list6)) 10)
 
-(newline)
-(display "reverse-list-app\n")
-(time-procedure (lambda () (reverse-list-app list4)) 10)
+; (newline)
+; (display "reverse-list-app\n")
+; (time-procedure (lambda () (reverse-list-app list4)) 10)
 ; (time-procedure (lambda () (reverse-list-app list5)) 1)
 ;   Run only once, commented out, takes too long
 ; (time-procedure (lambda () (reverse-list-app list6)) 10)
