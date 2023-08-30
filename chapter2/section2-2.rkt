@@ -43,3 +43,10 @@
           (else
             (+ (count-leaves (car tree))
                (count-leaves (cdr tree))))))
+
+(define (scale-tree tree factor)
+    (map (lambda (sub-tree)
+            (if (pair? sub-tree)
+                (scale-tree sub-tree factor)
+                (* factor sub-tree)))
+         tree))
