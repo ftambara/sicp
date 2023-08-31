@@ -2,7 +2,9 @@
 
 (provide position
          root1
-         root2)
+         root2
+         time-to-impact
+         time-to-height)
 
 ;;; Project 1, 6.001, Spring 2005
 
@@ -75,16 +77,21 @@
 
 ;; Problem 3
 
-; (define time-to-impact
-;   (lambda (vertical-velocity elevation)
-;     YOUR-CODE-HERE))
+; Given that the acceleration factor will
+; always be negative, the root1 procedure
+; will produce the sensible result.
+(define gravity-coherent-root root1)
+
+(define time-to-impact
+  (lambda (vertical-velocity elevation)
+    (gravity-coherent-root (- gravity) vertical-velocity elevation)))
 
 ;; Note that if we want to know when the ball drops to a particular height r 
 ;; (for receiver), we have
 
-; (define time-to-height
-;   (lambda (vertical-velocity elevation target-elevation)
-;     YOUR-CODE-HERE))
+(define time-to-height
+  (lambda (vertical-velocity elevation target-elevation)
+    (time-to-impact vertical-velocity (- elevation target-elevation))))
 
 ;; Problem 4
 

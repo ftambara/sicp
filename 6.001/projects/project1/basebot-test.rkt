@@ -17,3 +17,15 @@
 (check-within (root2 -.2 .8 1) -1.0 0.01)
 (check-false (root1 5 3 6))
 (check-false (root2 5 3 6))
+
+; Problem 3
+(check-within (time-to-impact 0 0) 0 .0001)
+(check-within (time-to-impact 5 1) .6639 .0001)
+(check-within (time-to-impact -1 4) .5899 .0001)
+(check-false (time-to-impact -1 -1))
+
+(check-within (time-to-height 0 5 5) 0 .0001)
+(check-within (time-to-height 5 2 1) .6639 .0001)
+(check-within (time-to-height -1 4 2) .4036 .0001)
+(check-false (time-to-height -1 -1 5))
+(check-within (time-to-height -1 -1 -2) .2725 .0001)
