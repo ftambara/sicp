@@ -1,6 +1,8 @@
 #lang racket
 
-(provide position)
+(provide position
+         root1
+         root2)
 
 ;;; Project 1, 6.001, Spring 2005
 
@@ -53,13 +55,21 @@
 
 ;; Problem 2
 
-; (define root1
-;   (lambda (a b c)
-;     YOUR-CODE-HERE))
+(define root1
+  (lambda (a b c)
+    (let ((discr (- (square b) (* 4.0 a c))))
+      (if (negative? discr)
+          false
+          (/ (- (- b) (sqrt discr))
+             (* 2.0 a))))))
 
-; (define root2
-;   (lambda (a b c)
-;     YOUR-CODE-HERE))
+(define root2
+  (lambda (a b c)
+    (let ((discr (- (square b) (* 4.0 a c))))
+      (if (negative? discr)
+          false
+          (/ (+ (- b) (sqrt discr))
+             (* 2.0 a))))))
 
 ;; complete these procedures and show some test cases
 
