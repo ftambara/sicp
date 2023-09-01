@@ -29,3 +29,7 @@
 (check-within (time-to-height -1 4 2) .4036 .0001)
 (check-false (time-to-height -1 -1 5))
 (check-within (time-to-height -1 -1 -2) .2725 .0001)
+
+; Problem 5
+(check-within (max-input-between (lambda (x) (* 2 x)) 0 5 0.1) 5 0.01)
+(check-within (max-input-between (lambda (x) (- 3 (* x x))) -5 5 0.1) 0 0.01)

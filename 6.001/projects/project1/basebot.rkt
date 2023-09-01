@@ -4,7 +4,9 @@
          root1
          root2
          time-to-impact
-         time-to-height)
+         time-to-height
+         max-input-between
+         find-best-angle)
 
 ;;; Project 1, 6.001, Spring 2005
 
@@ -174,15 +176,54 @@
 ;; assume that angle is between 0 and (/ pi 2) radians or between 0 and 90
 ;; degrees
 
-(define alpha-increment 0.01)
+(define alpha-increment 0.001)
+(define (echo x)
+  (display x)
+  (newline)
+  x)
 
-; (define find-best-angle
-;   (lambda (velocity elevation)
-;     YOUR-CODE-HERE))
+(define (max-input-between func start end step)
+  (define (iter max-in max-out input)
+    (if (>= input end)
+        max-in
+        (let ((test-val (func input))
+              (next-in (+ input step)))
+        (if (> test-val max-out)
+            (iter input test-val next-in)
+            (iter max-in max-out next-in)))))
+    (iter start (func start) (+ start step)))
+
+(define find-best-angle
+  (lambda (velocity elevation)
+    (max-input-between
+      (lambda (angle_rad)
+        (travel-distance-simple elevation velocity angle_rad))
+      0
+      (degree2radian 90)
+      alpha-increment)))
 
 ;; find best angle
 ;; try for other velocities
 ;; try for other heights
+
+(find-best-angle 10 0)
+; => .785 rad (44.98 deg)
+(find-best-angle 20 0)
+; => .785 rad (44.98 deg)
+(find-best-angle 0 0)
+; 0.0
+(find-best-angle -5 0)
+; 0.0
+(find-best-angle -5 5)
+; 1.57 rad (89.95 deg)
+(find-best-angle 10 10)
+; => .424 rad (24.29 deg)
+(find-best-angle 20 10)
+; => .618 rad (35.41 deg)
+
+; Results within .06 degrees of the optimal angles
+; Al results make sense. Even the latter two, which surprised
+; me a bit, make perfect sense after drawing some parabolas.
 
 ;; Problem 6
 
