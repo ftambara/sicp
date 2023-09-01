@@ -141,30 +141,31 @@
 ;; at an angle of (/ pi 2) radians or 90 degrees (straight vertical)
 ;; at an angle of (/ pi 4) radians or 45 degrees
 
-(time-to-impact (velocity-y 45 0) 1)
-; => 0.3194
+; (time-to-impact (velocity-y 45 0) 1)
+; ; => 0.3194
 
-(time-to-impact (velocity-y 45 (degree2radian 90)) 1)
-; => 4.6140
+; (time-to-impact (velocity-y 45 (degree2radian 90)) 1)
+; ; => 4.6140
 
-(time-to-impact (velocity-y 45 (degree2radian 45)) 1)
-; => 3.2780
+; (time-to-impact (velocity-y 45 (degree2radian 45)) 1)
+; ; => 3.2780
 
 ;; what is the distance traveled in each case?
 ;; record both in meters and in feet
 
-(travel-distance-simple 1 45 0)
-; => 14.375
+; (travel-distance-simple 1 45 0)
+; ; => 14.375
 
-(travel-distance-simple 1 45 (degree2radian 90))
-; => 0.0003
+; (travel-distance-simple 1 45 (degree2radian 90))
+; ; => 0.0003
+
 ; Should be exactly zero. 
 ; The first non-zero digit gives us an
 ; idea of the maximum precision we can
 ; expect from our procedure.
 
-(travel-distance-simple 1 45 (degree2radian 45))
-; => 104.31
+; (travel-distance-simple 1 45 (degree2radian 45))
+; ; => 104.31
 
 
 ;; Problem 5
@@ -206,20 +207,20 @@
 ;; try for other velocities
 ;; try for other heights
 
-(find-best-angle 10 0)
-; => .785 rad (44.98 deg)
-(find-best-angle 20 0)
-; => .785 rad (44.98 deg)
-(find-best-angle 0 0)
-; 0.0
-(find-best-angle -5 0)
-; 0.0
-(find-best-angle -5 5)
-; 1.57 rad (89.95 deg)
-(find-best-angle 10 10)
-; => .424 rad (24.29 deg)
-(find-best-angle 20 10)
-; => .618 rad (35.41 deg)
+; (find-best-angle 10 0)
+; ; => .785 rad (44.98 deg)
+; (find-best-angle 20 0)
+; ; => .785 rad (44.98 deg)
+; (find-best-angle 0 0)
+; ; => 0.0
+; (find-best-angle -5 0)
+; ; => 0.0
+; (find-best-angle -5 5)
+; ; => 1.57 rad (89.95 deg)
+; (find-best-angle 10 10)
+; ; => .424 rad (24.29 deg)
+; (find-best-angle 20 10)
+; ; => .618 rad (35.41 deg)
 
 ; Results within .06 degrees of the optimal angles
 ; Al results make sense. Even the latter two, which surprised
