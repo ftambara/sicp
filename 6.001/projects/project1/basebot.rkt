@@ -102,16 +102,16 @@
   (lambda (deg)
     (/ (*  deg pi) 180.)))
 
-(define (velocity-x vel angle_deg)
-  (* vel (cos (degree2radian angle_deg))))
+(define (velocity-x vel angle_rad)
+  (* vel (cos angle_rad)))
 
-(define (velocity-y vel angle_deg)
-  (* vel (sin (degree2radian angle_deg))))
+(define (velocity-y vel angle_rad)
+  (* vel (sin angle_rad)))
 
 (define travel-distance-simple 
   (lambda (elevation velocity angle)
   (* (velocity-x velocity angle)
-      (time-to-impact (velocity-y velocity angle) elevation))))
+     (time-to-impact (velocity-y velocity angle) elevation))))
 
 ;; let's try this out for some example values.  Note that we are going to 
 ;; do everything in metric units, but for quaint reasons it is easier to think
@@ -142,10 +142,10 @@
 (time-to-impact (velocity-y 45 0) 1)
 ; => 0.3194
 
-(time-to-impact (velocity-y 45 90) 1)
+(time-to-impact (velocity-y 45 (degree2radian 90)) 1)
 ; => 4.6140
 
-(time-to-impact (velocity-y 45 45) 1)
+(time-to-impact (velocity-y 45 (degree2radian 45)) 1)
 ; => 3.2780
 
 ;; what is the distance traveled in each case?
@@ -154,14 +154,14 @@
 (travel-distance-simple 1 45 0)
 ; => 14.375
 
-(travel-distance-simple 1 45 90)
+(travel-distance-simple 1 45 (degree2radian 90))
 ; => 0.0003
 ; Should be exactly zero. 
 ; The first non-zero digit gives us an
 ; idea of the maximum precision we can
 ; expect from our procedure.
 
-(travel-distance-simple 1 45 45)
+(travel-distance-simple 1 45 (degree2radian 45))
 ; => 104.31
 
 
