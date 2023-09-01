@@ -6,7 +6,10 @@
          time-to-impact
          time-to-height
          max-input-between
-         find-best-angle)
+         find-best-angle
+         degree2radian
+         travel-distance-simple
+         travel-distance)
 
 ;;; Project 1, 6.001, Spring 2005
 
@@ -295,17 +298,50 @@
 (define diameter 0.074)  ; m
 (define beta (* .5 drag-coeff density (* 3.14159 .25 (square diameter))))
 
-; (define integrate
-;   (lambda (x0 y0 u0 v0 dt g m beta)
-;     YOUR-CODE-HERE))
+(define (integrate x0 y0 u0 v0 dt g m beta)
+  (define (speed u v)
+    (sqrt (+ (square u) (square v))))
+  (define (iter x y u v)
+    (if (<= y 0)
+        x
+        (iter (+ x (* u dt))
+              (+ y (* v dt))
+              (- u (* (/ 1 m) (speed u v) beta u dt))
+              (- v (* (+ (* (/ 1 m) (speed u v) beta u) g) dt)))))
+  (iter x0 y0 u0 v0))
 
-; (define travel-distance
-;   YOUR-CODE-HERE)
+(define (travel-distance elevation velocity angle_rad)
+  (integrate
+    0
+    elevation
+    (velocity-x velocity angle_rad)
+    (velocity-y velocity angle_rad)
+    alpha-increment
+    gravity
+    mass
+    beta))
 
 
 ;; RUN SOME TEST CASES
 
+; (travel-distance 1 45 (degree2radian 45))
+; ; => 79.803
+; (travel-distance-simple 1 45 (degree2radian 45))
+; ; => 104.31
+; (travel-distance 1 45 0)
+; ; => 11.595
+; (travel-distance-simple 1 45 0)
+; ; => 14.375
+
 ;; what about Denver?
+
+; We could replace the air density with the approximate
+; value of 1.06 kg/m^3 and re-run the example cases
+; (travel-distance 1 45 (degree2radian 45))
+; ; => 86.735
+; (travel-distance 1 45 0)
+; ; => 12.220
+; With less air resistance, the distances go up as expected
 
 ;; Problem 7
  

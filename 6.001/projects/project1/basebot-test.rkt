@@ -33,3 +33,8 @@
 ; Problem 5
 (check-within (max-input-between (lambda (x) (* 2 x)) 0 5 0.1) 5 0.01)
 (check-within (max-input-between (lambda (x) (- 3 (* x x))) -5 5 0.1) 0 0.01)
+
+; Problem 6
+(check-true (< (travel-distance 1 45 (degree2radian 45)) (travel-distance-simple 1 45 45)))
+(check-true (< (travel-distance 1 45 0) (travel-distance-simple 1 45 0)))
+(check-within (travel-distance 1 45 (degree2radian 90)) 0 0.01)
