@@ -302,7 +302,7 @@
   (define (speed u v)
     (sqrt (+ (square u) (square v))))
   (define (iter x y u v)
-    (if (<= y 0)
+    (if (and (<= y 0) (< v 0))
         x
         (iter (+ x (* u dt))
               (+ y (* v dt))
@@ -367,7 +367,7 @@
     (define (speed u v)
       (sqrt (+ (square u) (square v))))
     (define (iter time x y u v)
-      (if (<= y 0)
+      (if (and (<= y 0) (< v 0))
           time
           (iter (+ time dt)
                 (+ x (* u dt))
