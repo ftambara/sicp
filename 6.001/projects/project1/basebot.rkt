@@ -432,12 +432,18 @@
 
 (define (travel-distance-bounces elevation velocity angle-rad bounces)
   (define (integrate x0 y0 u0 v0 dt g m beta)
+    (define (enough-bounces? num-bounces)
+      (and (not (negative? bounces))
+           (>= num-bounces bounces)))
+    (define (stopped? u)
+      (<= (abs u) 0.01))
     (define (speed u v)
       (sqrt (+ (square u) (square v))))
     (define (iter bounce-count x y u v)
       (if (and (<= y 0) (< v 0))
           ; Increase bounce count before comparing
-          (if (>= (+ bounce-count 1) bounces)
+          (if (or (stopped? u)
+                  (enough-bounces? (+ bounce-count 1)))
               x
               (iter (+ bounce-count 1)
                     x
@@ -491,5 +497,12 @@
 ; with the speed, which is expeted due to the
 ; air resistance increasing with the square of
 ; the speed.
+
+; (travel-distance-bounces 1 45 (degree2radian 25) -1)
+; ; => 79.519
+; (travel-distance-bounces 1 45 (degree2radian 45) -1)
+; ; => 98.885
+; (travel-distance-bounces 1 45 (degree2radian 65) -1)
+; ; => 75.715
 
 ;; Problem 9
