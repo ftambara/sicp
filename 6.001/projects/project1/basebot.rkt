@@ -445,11 +445,7 @@
           (if (or (stopped? u)
                   (enough-bounces? (+ bounce-count 1)))
               x
-              (iter (+ bounce-count 1)
-                    x
-                    0
-                    (/ u 2.0)
-                    (- (/ v 2.0))))
+              (iter (+ bounce-count 1) x y u (- v)))
           (iter bounce-count
                 (+ x (* u dt))
                 (+ y (* v dt))
@@ -468,30 +464,30 @@
 ; (travel-distance-bounces 1 45 (degree2radian 45) 1)
 ; ; => 79.803
 ; (travel-distance-bounces 1 45 (degree2radian 45) 2)
-; ; => 94.503
+; ; => 121.40
 ; (travel-distance-bounces 1 45 (degree2radian 45) 3)
-; ; => 97.808
+; ; => 143.10
 
 ; (travel-distance-bounces 1 45 (degree2radian 25) 1)
 ; ; => 57.585
 ; (travel-distance-bounces 1 45 (degree2radian 25) 2)
-; ; => 74.115
+; ; => 102.76
 ; (travel-distance-bounces 1 45 (degree2radian 25) 3)
-; ; => 78.167
+; ; => 135.59
 
 ; (travel-distance-bounces 1 45 (degree2radian 65) 1)
 ; ; => 65.621
 ; (travel-distance-bounces 1 45 (degree2radian 65) 2)
-; ; => 73.563
+; ; => 85.811
 ; (travel-distance-bounces 1 45 (degree2radian 65) 3)
-; ; => 75.196
+; ; => 91.900
 
 ; (travel-distance-bounces 1 55 (degree2radian 25) 1)
 ; ; => 67.265
 ; (travel-distance-bounces 1 55 (degree2radian 25) 2)
-; ; => 87.324
+; ; => 119.47
 ; (travel-distance-bounces 1 55 (degree2radian 25) 3)
-; ; => 92.201
+; ; => 155.80
 
 ; The distance doesn't increase proportionally
 ; with the speed, which is expeted due to the
@@ -499,10 +495,19 @@
 ; the speed.
 
 ; (travel-distance-bounces 1 45 (degree2radian 25) -1)
-; ; => 79.519
+; ; => 250.37
 ; (travel-distance-bounces 1 45 (degree2radian 45) -1)
-; ; => 98.885
+; ; => 168.09
 ; (travel-distance-bounces 1 45 (degree2radian 65) -1)
-; ; => 75.715
+; ; => 94.445
 
 ;; Problem 9
+
+; I missinterpreted problem 8, and thought that what was really
+; wanted was to use the integration method, and that bounces halved
+; the speed at the moment of impact.
+; I'll use problem 9 to just fix that halving, since the
+; simpler alternative that problem 8 really was asking for is
+; a bad approximation.
+
+; Results fixed in place. Now they make a lot more sense.
