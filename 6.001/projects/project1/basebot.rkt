@@ -430,4 +430,66 @@
 
 ;; Problem 8
 
+(define (travel-distance-bounces elevation velocity angle-rad bounces)
+  (define (integrate x0 y0 u0 v0 dt g m beta)
+    (define (speed u v)
+      (sqrt (+ (square u) (square v))))
+    (define (iter bounce-count x y u v)
+      (if (and (<= y 0) (< v 0))
+          ; Increase bounce count before comparing
+          (if (>= (+ bounce-count 1) bounces)
+              x
+              (iter (+ bounce-count 1)
+                    x
+                    0
+                    (/ u 2.0)
+                    (- (/ v 2.0))))
+          (iter bounce-count
+                (+ x (* u dt))
+                (+ y (* v dt))
+                (- u (* (/ 1 m) (speed u v) beta u dt))
+                (- v (* (+ (* (/ 1 m) (speed u v) beta u) g) dt)))))
+    (iter 0 x0 y0 u0 v0))
+  (integrate 0
+             elevation
+             (velocity-x velocity angle-rad)
+             (velocity-y velocity angle-rad)
+             alpha-increment
+             gravity
+             mass
+             beta))
+
+; (travel-distance-bounces 1 45 (degree2radian 45) 1)
+; ; => 79.803
+; (travel-distance-bounces 1 45 (degree2radian 45) 2)
+; ; => 94.503
+; (travel-distance-bounces 1 45 (degree2radian 45) 3)
+; ; => 97.808
+
+; (travel-distance-bounces 1 45 (degree2radian 25) 1)
+; ; => 57.585
+; (travel-distance-bounces 1 45 (degree2radian 25) 2)
+; ; => 74.115
+; (travel-distance-bounces 1 45 (degree2radian 25) 3)
+; ; => 78.167
+
+; (travel-distance-bounces 1 45 (degree2radian 65) 1)
+; ; => 65.621
+; (travel-distance-bounces 1 45 (degree2radian 65) 2)
+; ; => 73.563
+; (travel-distance-bounces 1 45 (degree2radian 65) 3)
+; ; => 75.196
+
+; (travel-distance-bounces 1 55 (degree2radian 25) 1)
+; ; => 67.265
+; (travel-distance-bounces 1 55 (degree2radian 25) 2)
+; ; => 87.324
+; (travel-distance-bounces 1 55 (degree2radian 25) 3)
+; ; => 92.201
+
+; The distance doesn't increase proportionally
+; with the speed, which is expeted due to the
+; air resistance increasing with the square of
+; the speed.
+
 ;; Problem 9
