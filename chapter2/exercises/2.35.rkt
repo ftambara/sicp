@@ -7,7 +7,7 @@
 
 (define (count-leaves t)
     (accumulate
-        (lambda (child-count accum) (+ child-count accum))
+        +
         0
         (map (lambda (node)
                 (cond ((null? node) 0)
