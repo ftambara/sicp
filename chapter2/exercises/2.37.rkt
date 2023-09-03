@@ -97,7 +97,9 @@
             (map * (enumerate-vector v) (enumerate-vector w)))))
 
 (define (matrix-*-vector m v)
-    (list->vec (map (lambda (row) (dot-product row v)) m)))
+    (list->vec
+        (map (lambda (row) (dot-product row v))
+        (enum-matrix-rows m))))
 
 (define (vector-*-matrix v m)
     (list->matrix
