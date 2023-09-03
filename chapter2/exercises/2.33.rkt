@@ -1,12 +1,7 @@
 #lang racket
 
+(require "../utils.rkt")
 
-; From the book
-(define (accumulate op initial sequence)
-    (if (null? sequence)
-        initial
-        (op (car sequence)
-            (accumulate op initial (cdr sequence)))))
 
 (define (map p sequence)
     (display "Using custom map implementation\n")

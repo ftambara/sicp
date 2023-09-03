@@ -1,13 +1,8 @@
 #lang racket
 
-(require rackunit)
-
-; From the book
-(define (accumulate op initial sequence)
-    (if (null? sequence)
-        initial
-        (op (car sequence)
-            (accumulate op initial (cdr sequence)))))
+(require
+    "../utils.rkt"
+    rackunit)
 
 (define (horner-eval x coefficient-sequence)
     (accumulate

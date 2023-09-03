@@ -1,6 +1,8 @@
 #lang racket
 
-(provide echo time-procedure)
+(provide accumulate
+         echo
+         time-procedure)
 
 
 (define (echo x)
@@ -23,3 +25,10 @@
     (let ((times (map time-1 (build-list n (lambda (x) proc)))))
         (printf "Average: ~a ms\n" (exact->inexact (average times)))
         (printf "Standard deviation: ~a ms\n" (stddev times))))
+
+; From the book
+(define (accumulate op initial sequence)
+    (if (null? sequence)
+        initial
+        (op (car sequence)
+            (accumulate op initial (cdr sequence)))))
