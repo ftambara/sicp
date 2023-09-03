@@ -101,12 +101,6 @@
         (map (lambda (row) (dot-product row v))
         (enum-matrix-rows m))))
 
-(define (vector-*-matrix v m)
-    (list->matrix
-        (map
-            (lambda (col) (dot-product v col))
-            (enum-matrix-cols m))))
-
 (define (matrix-*-matrix m n)
     (cols->matrix
         (map
