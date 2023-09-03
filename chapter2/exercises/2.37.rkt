@@ -94,8 +94,7 @@
         (accumulate
             +
             0
-            (accumulate-n * 1 (list (enumerate-vector v)
-                                    (enumerate-vector w))))))
+            (map * (enumerate-vector v) (enumerate-vector w)))))
 
 (define (matrix-*-vector m v)
     (list->vec (map (lambda (row) (dot-product row v)) m)))
