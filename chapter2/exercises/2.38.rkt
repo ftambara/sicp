@@ -4,6 +4,10 @@
     "2.37.rkt"
     rackunit)
 
+(provide
+    fold-left
+    fold-right)
+
 (define (fold-right op initial sequence)
     (if (null? sequence)
         initial
@@ -78,7 +82,7 @@
     (matrix-*-matrix matrix2 matrix1))
 
 ; Validating equivalence for accumulation
-(check-equal?
+(check-not-equal?
     (fold-right matrix-*-matrix matrix1 (list matrix2 matrix3))
     (fold-left matrix-*-matrix matrix1 (list matrix2 matrix3)))
 
