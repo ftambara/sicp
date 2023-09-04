@@ -96,6 +96,9 @@
             0
             (map * (enumerate-vector v) (enumerate-vector w)))))
 
+(define (transpose mat)
+    (list->matrix (accumulate-n cons null (enum-matrix-rows mat))))
+
 (define (matrix-*-vector m v)
     (list->vec
         (map (lambda (row) (dot-product row v))
@@ -123,6 +126,13 @@
 (check-equal?
     '((1 1 1) (2 0 1) (3 -1 1))
     (enum-matrix-cols matrix1))
+
+(check-equal?
+    (cons-matrix
+        (cons-vector 1  1  1)
+        (cons-vector 2  0  1)
+        (cons-vector 3 -1  1))
+    (transpose matrix1))
 
 (check-equal?
     (cons-vector 0 0 0)
