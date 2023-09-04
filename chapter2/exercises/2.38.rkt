@@ -25,3 +25,14 @@
 
 (check-equal? 3/8 (fold-right / 1 (list 1 2 3 4)))
 (check-equal? 1/24 (fold-left / 1 (list 1 2 3 4)))
+
+; If op is commutative, both fold methods will
+; return the same result
+
+(check-equal?
+    (fold-right + 0 '(1 2 3 4))
+    (fold-left + 0 '(1 2 3 4)))
+
+(check-equal?
+    (fold-right * 1 '(1 2 3 4))
+    (fold-left * 1 '(1 2 3 4)))
