@@ -9,6 +9,10 @@
          "2.36.rkt"
          rackunit)
 
+(provide cons-vector
+         cons-matrix
+         matrix-*-matrix)
+
 
 ; Vector abstraction
 ; ======================
