@@ -117,3 +117,73 @@
     ; Is the consistency worth it?
     (accumulate
         cons '() (filter even? (map fib (enumerate-interval 0 n)))))
+
+; (define (enumerate-pairs n)
+;     (accumulate
+;         append
+;         null
+;         (map (lambda (i)
+;                 (map (lambda (j) (list i j))
+;                      (enumerate-interval 1 (- i 1))))
+;              (enumerate-interval 1 n))))
+
+(define (flatmap proc seq)
+    (accumulate append null (map proc seq)))
+
+(define (enumerate-pairs n)
+    ; Generate a list of lists (pairs) for each i,
+    ; Flatten all pairs into the same top-level list
+    (flatmap (lambda (i)
+                (map (lambda (j) (list i j))
+                     (enumerate-interval 1 (- i 1))))
+             (enumerate-interval 1 n)))
+
+(enumerate-pairs 4)
+
+(define (prime? number)
+    ; Use non-deterministic Fermat's test
+    (define (expmod base exp m)
+        (cond ((= exp 0) 1)
+              ((even? exp)
+                (remainder (square (expmod base (/ exp 2) m)) m))
+              (else
+                (remainder (* base (expmod base (- exp 1) m)) m))))
+    (define (fermat-test n times)
+        (define (try-it a)
+            (= (expmod a n n) a))
+        (or (= times 0)
+            (and (try-it (+ 1 (random (- n 1))))
+                 (fermat-test n (- times 1)))))
+    (fermat-test number (max number 100)))
+
+(define (prime-sum? couple)
+    (prime? (+ (car couple) (cadr couple))))
+
+(define (make-couple-sum-triple couple)
+    (list (car couple) (cadr couple) (+ (car couple) (cadr couple))))
+
+(define (prime-sum-couples n)
+    (map
+        make-couple-sum-triple
+        (filter prime-sum? (enumerate-pairs n))))
+
+(prime-sum-couples 6)
+
+; (define (remove elem sequence)
+;     (cond ((null? sequence) null)
+;           ((= elem (car sequence)) (cdr sequence))
+;           (else (cons (car sequence) (remove elem (cdr sequence))))))
+
+(define (remove elem sequence)
+    (filter (lambda (x) (not (= x elem))) sequence))
+
+(define (permutations sequence)
+    (if (null? sequence)
+        (list null)
+        (flatmap
+            (lambda (prefix)
+                (map (lambda (sub-perm) (cons prefix sub-perm))
+                     (permutations (remove prefix sequence))))
+            sequence)))
+
+(permutations '(1 2 3))
