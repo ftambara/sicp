@@ -2,6 +2,7 @@
 
 (provide accumulate
          echo
+         prime?
          time-procedure)
 
 
@@ -32,3 +33,18 @@
         initial
         (op (car sequence)
             (accumulate op initial (cdr sequence)))))
+
+(define (prime? number)
+    (define (expmod base exp m)
+        (cond ((= exp 0) 1)
+              ((even? exp)
+                (remainder (square (expmod base (/ exp 2) m)) m))
+              (else
+                (remainder (* base (expmod base (- exp 1) m)) m))))
+    (define (fermat-test n times)
+        (define (try-it a)
+            (= (expmod a n n) a))
+        (or (= times 0)
+            (and (try-it (+ 1 (random (- n 1))))
+                 (fermat-test n (- times 1)))))
+    (fermat-test number (max number 100)))
