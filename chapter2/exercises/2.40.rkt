@@ -4,6 +4,10 @@
     "../utils.rkt"
     rackunit)
 
+(provide
+    enumerate-interval
+    flatmap)
+
 
 (define (enumerate-interval start end)
     (if (> start end)
