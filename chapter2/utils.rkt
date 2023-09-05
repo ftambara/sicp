@@ -33,6 +33,9 @@
                  (fermat-test n (- times 1)))))
     (fermat-test number (max number 100)))
 
+(define (square x)
+    (* x x))
+
 (define (time-procedure proc n)
     ; Show average and standard deviation
     ; of running proc for n number of repetitions
