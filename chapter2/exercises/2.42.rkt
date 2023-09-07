@@ -4,6 +4,11 @@
     "2.40.rkt"
     rackunit)
 
+(provide
+    adjoin-position
+    empty-board
+    safe?)
+
 ; row
 ;   1 ░░▓▓░░▓▓
 ;   2 ▓▓░░▓▓░░
@@ -88,42 +93,42 @@
         (newline))
     (for-each print-solution list-of-queen-positions))
 
-(length (queens 4))
-; 2
-(length (queens 5))
-; 10
-(length (queens 6))
-; 4
-(length (queens 8))
-; 92
-(length (queens 10))
-; 724
+; (length (queens 4))
+; ; 2
+; (length (queens 5))
+; ; 10
+; (length (queens 6))
+; ; 4
+; (length (queens 8))
+; ; 92
+; (length (queens 10))
+; ; 724
 
-(print-solutions (queens 6))
-; ░░▓▓░░QQ░░▓▓
-; QQ░░▓▓░░▓▓░░
-; ░░▓▓░░▓▓QQ▓▓
-; ▓▓QQ▓▓░░▓▓░░
-; ░░▓▓░░▓▓░░QQ
-; ▓▓░░QQ░░▓▓░░
+; (print-solutions (queens 6))
+; ; ░░▓▓░░QQ░░▓▓
+; ; QQ░░▓▓░░▓▓░░
+; ; ░░▓▓░░▓▓QQ▓▓
+; ; ▓▓QQ▓▓░░▓▓░░
+; ; ░░▓▓░░▓▓░░QQ
+; ; ▓▓░░QQ░░▓▓░░
 
-; ░░▓▓░░▓▓QQ▓▓
-; ▓▓░░QQ░░▓▓░░
-; QQ▓▓░░▓▓░░▓▓
-; ▓▓░░▓▓░░▓▓QQ
-; ░░▓▓░░QQ░░▓▓
-; ▓▓QQ▓▓░░▓▓░░
+; ; ░░▓▓░░▓▓QQ▓▓
+; ; ▓▓░░QQ░░▓▓░░
+; ; QQ▓▓░░▓▓░░▓▓
+; ; ▓▓░░▓▓░░▓▓QQ
+; ; ░░▓▓░░QQ░░▓▓
+; ; ▓▓QQ▓▓░░▓▓░░
 
-; ░░QQ░░▓▓░░▓▓
-; ▓▓░░▓▓QQ▓▓░░
-; ░░▓▓░░▓▓░░QQ
-; QQ░░▓▓░░▓▓░░
-; ░░▓▓QQ▓▓░░▓▓
-; ▓▓░░▓▓░░QQ░░
+; ; ░░QQ░░▓▓░░▓▓
+; ; ▓▓░░▓▓QQ▓▓░░
+; ; ░░▓▓░░▓▓░░QQ
+; ; QQ░░▓▓░░▓▓░░
+; ; ░░▓▓QQ▓▓░░▓▓
+; ; ▓▓░░▓▓░░QQ░░
 
-; ░░▓▓QQ▓▓░░▓▓
-; ▓▓░░▓▓░░▓▓QQ
-; ░░QQ░░▓▓░░▓▓
-; ▓▓░░▓▓░░QQ░░
-; QQ▓▓░░▓▓░░▓▓
-; ▓▓░░▓▓QQ▓▓░░
+; ; ░░▓▓QQ▓▓░░▓▓
+; ; ▓▓░░▓▓░░▓▓QQ
+; ; ░░QQ░░▓▓░░▓▓
+; ; ▓▓░░▓▓░░QQ░░
+; ; QQ▓▓░░▓▓░░▓▓
+; ; ▓▓░░▓▓QQ▓▓░░
