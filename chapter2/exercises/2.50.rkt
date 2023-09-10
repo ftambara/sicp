@@ -4,7 +4,10 @@
          "2.47.rkt"
          "2.49.rkt")
 
-(provide transform-painter)
+(provide transform-painter
+         flip-vert
+         flip-horiz
+         rotate180)
 
 
 (define (flip-horiz painter)

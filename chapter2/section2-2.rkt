@@ -187,3 +187,50 @@
        sequence)))
 
 (permutations '(1 2 3))
+
+(require "exercises/2.44.rkt")
+(require "exercises/2.46.rkt")
+(require "exercises/2.50.rkt")
+(require "exercises/2.51.rkt")
+
+; Redefined below using composition
+; (define (flipped-pairs painter)
+;     (let ((painter2 (beside painter (flip-vert painter))))
+;          (below painter2 painter2)))
+
+; Redefined below using composition
+; (define (square-limit painter n)
+;     (let* ((quarter (corner-split painter n))
+;            (half (beside (flip-horiz quarter) quarter)))
+;         (below (flip-vert half) half))))
+
+(define (square-of-four tl tr bl br)
+  (lambda (painter)
+    (let ((top (beside (tl painter) (tr painter)))
+          (bottom (beside (bl painter) (br painter))))
+      (below bottom top))))
+
+(define (identity painter)
+  painter)
+
+(define (flipped-pairs painter)
+  ((square-of-four identity flip-vert identity flip-vert) painter))
+
+(define (square-limit painter n)
+  (let ((combinator (square-of-four
+                     identity
+                     flip-horiz
+                     flip-vert rotate180)))
+    (combinator corner-split painter n)))
+
+(define (shrink-to-upper-right painter)
+  (transform-painter painter
+                     (make-vect 0.5 0.5)
+                     (make-vect 1.0 0.5)
+                     (make-vect 0.5 1.0)))
+
+(define (squash-inwards painter)
+  (transform-painter painter
+                     (make-vect 0.0 0.0)
+                     (make-vect 0.65 0.35)
+                     (make-vect 0.35 0.65)))
