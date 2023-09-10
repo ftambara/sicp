@@ -5,9 +5,12 @@
   "2.47.rkt"
   "2.48.rkt")
 
+(provide frame-coord-map)
+
 
 ;; From the book
 (define (frame-coord-map frame)
+  ; frame-vec must be a vector in the unit square
   (lambda (frame-vec)
     (add-vect
      (origin-frame frame)
