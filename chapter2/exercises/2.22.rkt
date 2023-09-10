@@ -5,16 +5,16 @@
 (require "../utils.rkt")
 
 (define (square x)
-    (* x x))
+  (* x x))
 
 (define (reverse-square-list items)
-    (define (iter things answer)
-        (if (null? things)
-            answer
-            (iter (cdr things)
-                  (cons (square (car things))
-                        answer))))
-    (iter items null))
+  (define (iter things answer)
+    (if (null? things)
+        answer
+        (iter (cdr things)
+              (cons (square (car things))
+                    answer))))
+  (iter items null))
 
 ; This implementation builds up answer in reverse
 ; order by taking the leftmost element of 'things'
@@ -22,14 +22,14 @@
 ; building a sort of LIFO stack.
 
 (define (reverse-square-list-alt items)
-    (define (iter things answer)
-        (echo answer)
-        (if (null? things)
-            answer
-            (iter (cdr things)
-                  (cons answer
-                        (square (car things))))))
-    (iter items null))
+  (define (iter things answer)
+    (echo answer)
+    (if (null? things)
+        answer
+        (iter (cdr things)
+              (cons answer
+                    (square (car things))))))
+  (iter items null))
 
 ; The links between these pairs are not done in the standard
 ; list way. Instead of putting values on the car's and linking
@@ -43,13 +43,13 @@
 ; iteratively (see 2.18.rkt).
 
 (define (square-list-iter items)
-    (define (iter things answer)
-        (echo answer)
-        (if (null? things)
+  (define (iter things answer)
+    (echo answer)
+    (if (null? things)
         answer
         (iter (cdr things)
               (cons (square (car things)) answer))))
-    (iter (reverse items) null))
+  (iter (reverse items) null))
 
 ; > (square-list-iter '(1 2 3 5))
 ; ()

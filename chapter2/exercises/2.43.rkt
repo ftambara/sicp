@@ -1,47 +1,47 @@
 #lang racket
 
 (require
-    "2.40.rkt"
-    "2.42.rkt"
-    "../utils.rkt")
+  "2.40.rkt"
+  "2.42.rkt"
+  "../utils.rkt")
 
 (define length-sum 0)
 (define (sum-length seq)
-    (set! length-sum (+ length-sum (length seq)))
-    seq)
+  (set! length-sum (+ length-sum (length seq)))
+  seq)
 
 (define (queens-slow board-size)
-    (define (queens-cols k)
-        (if (= k 0)
-            (list empty-board)
-            (filter
-                (lambda (positions) (safe? (car positions) (cdr positions)))
-                (sum-length (flatmap
-                    (lambda (proposed-row)
+  (define (queens-cols k)
+    (if (= k 0)
+        (list empty-board)
+        (filter
+         (lambda (positions) (safe? (car positions) (cdr positions)))
+         (sum-length (flatmap
+                      (lambda (proposed-row)
                         (map (lambda (rest-of-queens)
-                                (adjoin-position proposed-row k rest-of-queens))
-                            (queens-cols (- k 1))))
-                    (enumerate-interval 1 board-size))))))
-    (queens-cols board-size))
+                               (adjoin-position proposed-row k rest-of-queens))
+                             (queens-cols (- k 1))))
+                      (enumerate-interval 1 board-size))))))
+  (queens-cols board-size))
 
 (define (echo-length sequence)
-    (display (length sequence))
-    (newline)
-    sequence)
+  (display (length sequence))
+  (newline)
+  sequence)
 
 (define (queens board-size)
-    (define (queens-cols k)
-        (if (= k 0)
-            (list empty-board)
-            (filter
-                (lambda (positions) (safe? (car positions) (cdr positions)))
-                (sum-length (flatmap
-                    (lambda (rest-of-queens)
+  (define (queens-cols k)
+    (if (= k 0)
+        (list empty-board)
+        (filter
+         (lambda (positions) (safe? (car positions) (cdr positions)))
+         (sum-length (flatmap
+                      (lambda (rest-of-queens)
                         (map (lambda (proposed-row)
-                                (adjoin-position proposed-row k rest-of-queens))
+                               (adjoin-position proposed-row k rest-of-queens))
                              (enumerate-interval 1 board-size)))
-                    (queens-cols (- k 1)))))))
-    (queens-cols board-size))
+                      (queens-cols (- k 1)))))))
+  (queens-cols board-size))
 
 (display "Slow flatmap:\n")
 (time-procedure (lambda () (queens-slow 8)) 1)

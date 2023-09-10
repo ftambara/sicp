@@ -19,21 +19,21 @@
 ; Constructors
 ; ----------------------
 (define (cons-vector . entries)
-    entries)
+  entries)
 
 (define (list->vec list_)
-    list_)
+  list_)
 ; ----------------------
 
 ; Selectors
 ; ----------------------
 (define (length-vector vec)
-    (length vec))
+  (length vec))
 
 (define (nth-elem-vector vec n)
-    (cond ((null? vec) null)
-          ((= n 0) (car vec))
-          (else (nth-elem-vector (cdr vec) (- n 1)))))
+  (cond ((null? vec) null)
+        ((= n 0) (car vec))
+        (else (nth-elem-vector (cdr vec) (- n 1)))))
 
 (define (enumerate-vector vec) vec)
 ; ----------------------
@@ -44,75 +44,75 @@
 (check-equal? null (nth-elem-vector (cons-vector 1 4 7) 3))
 
 (define (all-equal-length? vectors)
-    (let ((ref (length-vector (car vectors))))
-        (accumulate
-            (lambda (elem accum) (and elem accum))
-            true
-            (map (lambda (vec) (= (length-vector vec) ref)) (cdr vectors)))))
+  (let ((ref (length-vector (car vectors))))
+    (accumulate
+     (lambda (elem accum) (and elem accum))
+     true
+     (map (lambda (vec) (= (length-vector vec) ref)) (cdr vectors)))))
 
 (check-true
-    (all-equal-length? (list (cons-vector 1 0 0)
-                             (cons-vector 0 1 0)
-                             (cons-vector 0 0 1))))
+ (all-equal-length? (list (cons-vector 1 0 0)
+                          (cons-vector 0 1 0)
+                          (cons-vector 0 0 1))))
 (check-false
-    (all-equal-length? (list (cons-vector 1 0 0)
-                             (cons-vector 0 1)
-                             (cons-vector 0 0 1))))
+ (all-equal-length? (list (cons-vector 1 0 0)
+                          (cons-vector 0 1)
+                          (cons-vector 0 0 1))))
 
 ; Matrix abstraction
 ; ======================
 ; Constructors
 ; ----------------------
 (define (cons-matrix . vectors)
-    (if (not (all-equal-length? vectors))
-        (raise-user-error "Vectors should be of the same length")
-        vectors))
+  (if (not (all-equal-length? vectors))
+      (raise-user-error "Vectors should be of the same length")
+      vectors))
 
 (define (list->matrix list_)
-    (if (not (all-equal-length? list_))
-        (raise-user-error "Vectors should be of the same length")
-        list_))
+  (if (not (all-equal-length? list_))
+      (raise-user-error "Vectors should be of the same length")
+      list_))
 
 (define (cols->matrix list-of-columns)
-    (if (null? (car list-of-columns))
-        null
-        (cons
-            (map car list-of-columns)
-            (cols->matrix (map cdr list-of-columns)))))
+  (if (null? (car list-of-columns))
+      null
+      (cons
+       (map car list-of-columns)
+       (cols->matrix (map cdr list-of-columns)))))
 ; ----------------------
 
 ; Selectors
 ; ----------------------
 (define (enum-matrix-rows matrix)
-    matrix)
+  matrix)
 
 (define (enum-matrix-cols matrix)
-    (if (null? (car matrix))
-        null
-        (cons (map car matrix) (enum-matrix-cols (map cdr matrix)))))
+  (if (null? (car matrix))
+      null
+      (cons (map car matrix) (enum-matrix-cols (map cdr matrix)))))
 ; ----------------------
 
 (define (dot-product v w)
-    (if (not (all-equal-length? (list v w)))
-        (raise-user-error "Vectors should be of the same length")
-        (accumulate
-            +
-            0
-            (map * (enumerate-vector v) (enumerate-vector w)))))
+  (if (not (all-equal-length? (list v w)))
+      (raise-user-error "Vectors should be of the same length")
+      (accumulate
+       +
+       0
+       (map * (enumerate-vector v) (enumerate-vector w)))))
 
 (define (transpose mat)
-    (list->matrix (accumulate-n cons null (enum-matrix-rows mat))))
+  (list->matrix (accumulate-n cons null (enum-matrix-rows mat))))
 
 (define (matrix-*-vector m v)
-    (list->vec
-        (map (lambda (row) (dot-product row v))
+  (list->vec
+   (map (lambda (row) (dot-product row v))
         (enum-matrix-rows m))))
 
 (define (matrix-*-matrix m n)
-    (cols->matrix
-        (map
-            (lambda (col) (matrix-*-vector m col))
-            (enum-matrix-cols n))))
+  (cols->matrix
+   (map
+    (lambda (col) (matrix-*-vector m col))
+    (enum-matrix-cols n))))
 
 
 (define vec1 (cons-vector 1 2 3))
@@ -128,27 +128,27 @@
 (define matrix2 (cons-matrix vec3 vec4))
 
 (check-equal?
-    '((1 1 1) (2 0 1) (3 -1 1))
-    (enum-matrix-cols matrix1))
+ '((1 1 1) (2 0 1) (3 -1 1))
+ (enum-matrix-cols matrix1))
 
 (check-equal?
-    (cons-matrix
-        (cons-vector 1  1  1)
-        (cons-vector 2  0  1)
-        (cons-vector 3 -1  1))
-    (transpose matrix1))
+ (cons-matrix
+  (cons-vector 1  1  1)
+  (cons-vector 2  0  1)
+  (cons-vector 3 -1  1))
+ (transpose matrix1))
 
 (check-equal?
-    (cons-vector 0 0 0)
-    (matrix-*-vector matrix1 vec4))
+ (cons-vector 0 0 0)
+ (matrix-*-vector matrix1 vec4))
 
 (check-equal?
-    (cons-vector 0 3)
-    (matrix-*-vector matrix2 vec5))
+ (cons-vector 0 3)
+ (matrix-*-vector matrix2 vec5))
 
 (check-equal?
-    (cons-matrix
-        (cons-vector 6 5 4)
-        (cons-vector 0 1 2)
-        (cons-vector 3 3 3))
-    (matrix-*-matrix matrix1 matrix1))
+ (cons-matrix
+  (cons-vector 6 5 4)
+  (cons-vector 0 1 2)
+  (cons-vector 3 3 3))
+ (matrix-*-matrix matrix1 matrix1))

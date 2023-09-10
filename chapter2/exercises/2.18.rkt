@@ -5,19 +5,19 @@
 (require "../utils.rkt")
 
 (define (reverse-list list_)
-    (define (iter reversed remain)
-        (if (null? remain)
-            reversed
-            (iter (cons (car remain) reversed) (cdr remain))))
-    (iter '() list_))
+  (define (iter reversed remain)
+    (if (null? remain)
+        reversed
+        (iter (cons (car remain) reversed) (cdr remain))))
+  (iter '() list_))
 
 ; reverse-list could also be defined with the help of
 ; append, but that would make the procedure O(n^2) for time
 ; this implementation is O(n) in both time and memory.
 (define (reverse-list-app list_)
-    (if (null? list_)
-        list_
-        (append (reverse-list-app (cdr list_)) (list (car list_)))))
+  (if (null? list_)
+      list_
+      (append (reverse-list-app (cdr list_)) (list (car list_)))))
 
 ; (define list4 (build-list 10000 values))
 ; (define list5 (build-list 100000 values))

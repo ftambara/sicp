@@ -4,12 +4,12 @@
 
 
 (define (deep-reverse sequence)
-    (define (iter result remain)
-        (cond ((null? remain) result)
-              ((list? (car remain))
-                (iter (cons (deep-reverse (car remain)) result) (cdr remain)))
-              (else (iter (cons (car remain) result) (cdr remain)))))
-    (iter '() sequence))
+  (define (iter result remain)
+    (cond ((null? remain) result)
+          ((list? (car remain))
+           (iter (cons (deep-reverse (car remain)) result) (cdr remain)))
+          (else (iter (cons (car remain) result) (cdr remain)))))
+  (iter '() sequence))
 
 
 (define x (list (list 1 2) (list 3 4)))
