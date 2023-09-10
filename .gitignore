@@ -1,3 +1,7 @@
+# Racket files
 *.rkt~
 compiled/
 *.rkt#*#
+
+# Visual Studio Code
+.vscode/
