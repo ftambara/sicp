@@ -4,6 +4,8 @@
          "2.47.rkt"
          "2.49.rkt")
 
+(provide transform-painter)
+
 
 (define (flip-horiz painter)
   (transform-painter painter
