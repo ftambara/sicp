@@ -21,6 +21,10 @@
        (bottom-painter frame)
        (top-painter frame)))))
 
+(define (below-rotate painter1 painter2)
+  (rotate90 (beside (rotate270 painter1))
+            (beside (rotate270 painter2))))
+
 ; From the book, with modifications
 (define (beside painter1 painter2)
   (let ((left-painter

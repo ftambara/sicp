@@ -7,7 +7,9 @@
 (provide transform-painter
          flip-vert
          flip-horiz
-         rotate180)
+         rotate90
+         rotate180
+         rotate270)
 
 
 (define (flip-horiz painter)
