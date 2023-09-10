@@ -2,6 +2,9 @@
 
 (require "2.50.rkt")
 
+(provide below
+         beside)
+
 
 (define (below painter1 painter2)
   (let ((bottom-painter
