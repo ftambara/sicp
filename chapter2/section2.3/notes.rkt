@@ -23,11 +23,20 @@
 (define (same-variable? v1 v2)
   (and (variable? v1) (variable? v2) (eq? v1 v2)))
 
+(define (=number? exp num)
+  (and (number? exp) (= exp num)))
+
 (define (make-sum a1 a2)
-  (list '+ a1 a2))
+  (cond ((=number? a1 0) a2)
+        ((=number? a2 0) a1)
+        ((and (number? a1) (number? a2)) (+ a1 a2))
+        (else (list '+ a1 a2))))
 
 (define (make-product m1 m2)
-  (list '* m1 m2))
+  (cond ((or (=number? m1 0) (=number? m2 0)) 0)
+        ((=number? m1 1) m2)
+        ((=number? m2 1) m1)
+        (else (list '* m1 m2))))
 
 (define (sum? e)
   (and (list? e) (eq? (car e) '+)))
@@ -68,10 +77,7 @@
         (else (error "Cannot derive " expr))))
 
 ;; Examples
-(check-equal? (derive '(+ x 3) 'x) '(+ 1 0))
-(check-equal? (derive '(* x y) 'x) '(+ (* x 0) (* 1 y)))
-(check-equal?
- (derive '(* (* x y) (+ x 3)) 'x)
- (quote (+ (* (* x y) (+ 1 0))
-           (* (+ (* x 0) (* 1 y))
-              (+ x 3)))))
+(check-equal? (derive '(+ x 3) 'x) 1)
+(check-equal? (derive '(* x y) 'x) 'y)
+(check-equal?  (derive '(* (* x y) (+ x 3)) 'x)
+               '(+ (* x y) (* y (+ x 3))))
