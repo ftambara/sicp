@@ -2,6 +2,18 @@
 
 (require rackunit)
 
+(provide variable?
+         same-variable?
+         =number?
+         sum?
+         addend
+         product?
+         multiplier
+         make-exponentiation
+         exponentiation?
+         base
+         exponent)
+
 
 ;; From the book
 (define (variable? e)
