@@ -2,6 +2,10 @@
 
 (require rackunit)
 
+(provide make-tree
+         make-leave
+         tree->list)
+
 
 ;; From the book
 
@@ -63,11 +67,11 @@
                         (make-leave 11))))
 
 (check-equal? (tree->list-1 tree1) '(1 3 5 7 9 11))
-(printf "tree->list-1 calls: ~a\n" calls-1)
-(reset-counters)
+; (printf "tree->list-1 calls: ~a\n" calls-1)
+; (reset-counters)
 (check-equal? (tree->list-2 tree1) '(1 3 5 7 9 11))
-(printf "tree->list-2 calls: ~a\n" calls-2)
-(reset-counters)
+; (printf "tree->list-2 calls: ~a\n" calls-2)
+; (reset-counters)
 
 (define tree2
   (make-tree 3
@@ -79,11 +83,11 @@
                                    (make-leave 11)))))
 
 (check-equal? (tree->list-1 tree2) '(1 3 5 7 9 11))
-(printf "tree->list-1 calls: ~a\n" calls-1)
-(reset-counters)
+; (printf "tree->list-1 calls: ~a\n" calls-1)
+; (reset-counters)
 (check-equal? (tree->list-2 tree2) '(1 3 5 7 9 11))
-(printf "tree->list-2 calls: ~a\n" calls-2)
-(reset-counters)
+; (printf "tree->list-2 calls: ~a\n" calls-2)
+; (reset-counters)
 
 (define tree3
   (make-tree 5
@@ -95,11 +99,11 @@
                         (make-leave 11))))
 
 (check-equal? (tree->list-1 tree3) '(1 3 5 7 9 11))
-(printf "tree->list-1 calls: ~a\n" calls-1)
-(reset-counters)
+; (printf "tree->list-1 calls: ~a\n" calls-1)
+; (reset-counters)
 (check-equal? (tree->list-2 tree3) '(1 3 5 7 9 11))
-(printf "tree->list-2 calls: ~a\n" calls-2)
-(reset-counters)
+; (printf "tree->list-2 calls: ~a\n" calls-2)
+; (reset-counters)
 
 ;; a.
 ;; Despite my confused intuition about these procedures,
@@ -113,3 +117,5 @@
 ;; empty leaves.
 ;; The first implementation has an advantage in space, since it
 ;; doesn't copy the accumulated list for every left-branch step.
+
+(define tree->list tree->list-1)

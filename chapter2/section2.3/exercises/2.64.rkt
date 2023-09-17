@@ -1,5 +1,7 @@
 #lang racket
 
+(provide list->tree)
+
 
 ;; Utils for item b
 (define step-counter 0)
@@ -86,7 +88,8 @@
 ;; - Right branch: '(11)
 
 ;; Tree for (list->tree '(1 3 5 7 9 11))
-(list->tree '(1 3 5 7 9 11))
+; (list->tree '(1 3 5 7 9 11))
+; => '(5 (1 () (3 () ())) (9 (7 () ()) (11 () ())))
 
 ;; Diagram
 ;;
@@ -106,10 +109,10 @@
   (list->tree (build-list n (lambda (x) x)))
   (printf "(n = ~a) Steps: ~a\n" n step-counter))
 
-(run-test 10)
-(run-test 100)
-(run-test 1000)
-(run-test 10000)
+; (run-test 10)
+; (run-test 100)
+; (run-test 1000)
+; (run-test 10000)
 
 ; (n = 10) Steps: 21
 ; (n = 100) Steps: 201
