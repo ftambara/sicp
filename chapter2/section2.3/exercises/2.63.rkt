@@ -3,6 +3,9 @@
 (require rackunit)
 
 (provide make-tree
+         entry
+         left-branch
+         right-branch
          make-leave
          tree->list)
 
