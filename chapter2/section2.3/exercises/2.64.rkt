@@ -39,6 +39,7 @@
                          right-tree)
               remaining-elts))))
 
+;; a.
 ;; The partial-tree procedure works as follows:
 ;; - Of all the elements in the elts list, build the left branch with
 ;;  the first floor((n - 1) / 2) elements
@@ -58,4 +59,32 @@
 ;; - Only smaller copies of the original elts list passes around as
 ;;  rest, by virtue of carefully selected 'slots' for the
 ;;  sub-branches.
+;;
+;; High-level example: Convert '(1 3 5 7 9 11) to a tree
+;;
+;; The list contains 6 elements. Split into 3 parts:
+;; - Left branch: '(1 3)
+;; - This node: 5
+;; - Right branch: '(7 9 11)
+;;
+;; Recursively, build the left branch:
+;; - Left branch: '()
+;; - This node: 1
+;; - Right branch: '(3)
+;;
+;; Build the right branch:
+;; - Left branch: '(7)
+;; - This node: 9
+;; - Right branch: '(11)
+
+;; Tree for (list->tree '(1 3 5 7 9 11))
+(list->tree '(1 3 5 7 9 11))
+
+;; Diagram
+;;
+;;       5
+;;     /   \
+;;   1       9
+;;    \     / \
+;;     3   7   11
 
