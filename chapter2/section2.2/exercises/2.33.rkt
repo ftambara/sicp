@@ -1,6 +1,6 @@
 #lang racket
 
-(require "../utils.rkt")
+(require "../../utils.rkt")
 
 
 (define (map p sequence)

@@ -5,7 +5,7 @@
 
 #lang racket
 
-(require "../utils.rkt"
+(require "../../utils.rkt"
          "2.36.rkt"
          rackunit)
 

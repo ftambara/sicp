@@ -2,7 +2,7 @@
 
 (provide reverse-list reverse-list-app time-procedure)
 
-(require "../utils.rkt")
+(require "../../utils.rkt")
 
 (define (reverse-list list_)
   (define (iter reversed remain)

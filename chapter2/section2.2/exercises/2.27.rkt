@@ -1,6 +1,6 @@
 #lang racket
 
-(require rackunit "2.18.rkt")
+(require rackunit)
 
 
 (define (deep-reverse sequence)

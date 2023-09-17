@@ -1,7 +1,7 @@
 #lang racket
 
 (require
-  "../utils.rkt"
+  "../../utils.rkt"
   rackunit)
 
 (define (horner-eval x coefficient-sequence)

@@ -3,7 +3,7 @@
 (require
   "2.40.rkt"
   "2.42.rkt"
-  "../utils.rkt")
+  "../../utils.rkt")
 
 (define length-sum 0)
 (define (sum-length seq)

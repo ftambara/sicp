@@ -2,7 +2,7 @@
 
 (require
   "2.40.rkt"
-  "../utils.rkt"
+  "../../utils.rkt"
   rackunit)
 
 
