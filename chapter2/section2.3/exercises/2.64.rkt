@@ -1,7 +1,14 @@
 #lang racket
 
-(require rackunit)
 
+;; Utils for item b
+(define step-counter 0)
+
+(define (increase-counter)
+  (set! step-counter (+ step-counter 1)))
+
+(define (reset-counter)
+  (set! step-counter 0))
 
 ;; From the book, with minor changes
 
@@ -17,6 +24,7 @@
         (error "list->tree: " rest " not empty"))))
 
 (define (partial-tree elts n)
+  (increase-counter)
   (if (= n 0)
       (cons '() elts)
       ;; Put floor((n - 1) / 2) elements on the left branch
@@ -88,3 +96,25 @@
 ;;    \     / \
 ;;     3   7   11
 
+;; b.
+;; The number of steps required to grow like O(n), since only one
+;; call is needed for each element on the list.
+;;
+;; Check:
+(define (run-test n)
+  (reset-counter)
+  (list->tree (build-list n (lambda (x) x)))
+  (printf "(n = ~a) Steps: ~a\n" n step-counter))
+
+(run-test 10)
+(run-test 100)
+(run-test 1000)
+(run-test 10000)
+
+; (n = 10) Steps: 21
+; (n = 100) Steps: 201
+; (n = 1000) Steps: 2001
+; (n = 10000) Steps: 20001
+
+;; It is in fact O(n), but there is a factor of 2 involved. which is
+;; due to empty leaves.
