@@ -2,6 +2,15 @@
 
 (require rackunit)
 
+(provide symbols
+         make-code-tree
+         left-branch
+         right-branch
+         make-leaf
+         leaf?
+         symbol-leaf
+         my-decode)
+
 
 (define (symbols tree)
   (if (leaf? tree)
