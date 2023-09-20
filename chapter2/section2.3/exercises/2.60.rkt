@@ -1,7 +1,6 @@
 #lang racket
 
 (require rackunit)
-;; element-of-set?, adjoin-set, union-set, and intersection-set
 
 
 (define (element-of-set? item set)
