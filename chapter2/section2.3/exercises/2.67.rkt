@@ -3,6 +3,7 @@
 (require rackunit)
 
 (provide symbols
+         weight
          make-code-tree
          left-branch
          right-branch
