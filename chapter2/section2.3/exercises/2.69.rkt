@@ -3,6 +3,8 @@
 (require "2.67.rkt"
          rackunit)
 
+(provide generate-huffman-tree)
+
 
 ;; From the book
 

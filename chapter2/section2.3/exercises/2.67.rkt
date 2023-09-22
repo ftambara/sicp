@@ -10,7 +10,8 @@
          make-leaf
          leaf?
          symbol-leaf
-         my-decode)
+         my-decode
+         decode)
 
 
 (define (symbols tree)

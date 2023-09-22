@@ -3,6 +3,9 @@
 (require "2.67.rkt"
          rackunit)
 
+(provide encode
+         integer-list->string)
+
 
 ;; From the book
 (define (encode message tree)
@@ -31,7 +34,7 @@
          (cons 0 (encode-symbol sym (left-branch code-tree))))
         ((member sym (symbols (right-branch code-tree)))
          (cons 1 (encode-symbol sym (right-branch code-tree))))
-        (else (error "Symbol is not encoded by tree\n"))))
+        (else (error "Symbol is not encoded by tree: " sym))))
 
 ;; Tests
 (define code "00111000111110010")
