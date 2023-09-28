@@ -7,12 +7,16 @@
          =number?
          sum?
          addend
+         augend
          product?
          multiplier
+         multiplicand
          make-exponentiation
          exponentiation?
          base
-         exponent)
+         exponent
+         make-sum
+         make-product)
 
 
 ;; From the book
