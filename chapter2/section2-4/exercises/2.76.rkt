@@ -34,3 +34,6 @@
 ;;  dispatch responsibility to operations seems the most flexible for
 ;;  adding new operations, since existing code suffers no
 ;;  modifications.
+;;  At second place, though, data-directed programming may be more
+;;  explicit than the message passing style about where the new
+;;  procedure code should go.
