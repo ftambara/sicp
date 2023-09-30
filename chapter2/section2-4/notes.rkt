@@ -266,3 +266,26 @@
 
 (define (get op types)
   (display "Implementation pending"))
+
+
+;; Mesage passing
+
+(define (make-from-real-imag-message x y)
+  (define (dispatch op)
+    (cond ((eq? op 'real-part) x)
+          ((eq? op 'imag-part) y)
+          ((eq? op 'magnitude) (sqrt (+ (expt x 2) (expt y 2))))
+          ((eq? op 'angle) (atan y x))
+          (else (error "Unknown op: MAKE-FROM-REAL-IMAG" op))))
+  dispatch)
+
+(define (apply-generic-message op arg)
+  (arg op))
+
+;; In mesasge passing, the object is seen as an entity that receives
+;; the operation to call. The dispatch is done by the object. This is
+;; akin to OOP.
+;; In data-directed programming, the dispatch is done by the generic
+;; method. This is identical, I think, to C++'s function overloading,
+;; and I never thought of it as an alternative to OOP, which in part
+;; is.
