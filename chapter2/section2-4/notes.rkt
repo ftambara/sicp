@@ -184,7 +184,12 @@
 
 ;; This approach solves two weaknesses of the previous
 ;; implementation: manual type dispatch and name conflicts.
+
 ;; Where does the 'data-directed' name mean in this context?
+;; The name seems to come from the fact that under this approach
+;; it's almost as if the data took responsiblity for the dispatch
+;; mechanism, or at least is not explicitly done in the generic
+;; procedures themselves.
 
 (define (install-rectangular-package)
   ;; internal procedures
