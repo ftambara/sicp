@@ -6,10 +6,12 @@
 (define (literal? expr)
   (or (number? expr) (symbol? expr)))
 
-(define (attach-tag type-tag contents)
-  (if (literal? contents)
-      contents
-      (cons type-tag contents)))
+;; Silently ignoring the given type is questionable. Probably this
+;; function shouldn't be called at all for literals.
+; (define (attach-tag type-tag contents)
+;   (if (literal? contents)
+;       contents
+;       (cons type-tag contents)))
 
 (define (type-tag datum)
   (cond ((pair? datum) (car datum))
