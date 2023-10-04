@@ -1,5 +1,12 @@
 #lang racket
 
+(provide install-polar-package
+         install-rectangular-package
+         attach-tag
+         type-tag
+         contents
+         apply-generic)
+
 
 ;; Multiple representations
 
