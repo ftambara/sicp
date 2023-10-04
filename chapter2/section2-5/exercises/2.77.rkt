@@ -36,7 +36,7 @@
 ;; => type-tags = '(rectangular)
 ;; => proc = (get 'magnitude '(rectangular))
 ;;           magnitude-rectangular
-;; (apply magnitude-rectangular (cons 3 4))
+;; (apply magnitude-rectangular ((cons 3 4)))
 
 ;; (magnitude-rectangular (cons 3 4))
 ;; => 5
