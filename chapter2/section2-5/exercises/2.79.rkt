@@ -5,6 +5,10 @@
 
 (define put void)
 (define get void)
+(define numer void)
+(define denom void)
+(define magnitude void)
+(define angle void)
 
 ;; On the scheme-number package
 (put 'equ? '(scheme-number scheme-number) =)
