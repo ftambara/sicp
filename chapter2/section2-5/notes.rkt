@@ -118,3 +118,66 @@
   (put 'make-from-mag-ang 'complex
        (lambda (r a) (tag (make-from-mag-ang r a))))
   'done)
+
+
+;; Mixed Types
+
+;; to be included in the complex package
+;; Why not on the scheme-number package?
+(define make-from-real-imag void)
+(define tag void)
+
+(define (add-complex-to-schemenum z x)
+  (make-from-real-imag (+ (real-part z) x) (imag-part z)))
+(put 'add '(complex scheme-number)
+     (lambda (z x) (tag (add-complex-to-schemenum z x))))
+
+;; This variation is also needed
+(define (add-schemenum-to-complex x z)
+  (make-from-real-imag (+ (real-part z) x) (imag-part z)))
+(put 'add '(complex scheme-number)
+     (lambda (x z) (tag (add-complex-to-schemenum x z))))
+
+;; If our packages naturally need a lot of cross-type interaction,
+;; isn't that a clue that we should bundle them all together in a
+;; single package? Having two-way dependencies between otherwise
+;; independent packages is strange.
+
+;; Coercion solves the problem of excessive definition of procedures,
+;; but it does eliminate two-way dependencies.
+
+(define make-complex-from-real-imag void)
+(define put-coercion void)
+(define get-coercion void)
+
+(define (scheme-number->complex n)
+  (make-complex-from-real-imag (contents n) 0))
+
+(put-coercion 'scheme-number
+              'complex
+              scheme-number->complex)
+
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+          (apply proc (map contents args))
+          (if (= (length args) 2)
+              (let ((type1 (car type-tags))
+                    (type2 (cadr type-tags))
+                    (a1 (car args))
+                    (a2 (cadr args)))
+                (let ((t1->t2 (get-coercion type1 type2))
+                      (t2->t1 (get-coercion type2 type1)))
+                  (cond (t1->t2
+                         (apply-generic op (t1->t2 a1) a2))
+                        (t2->t1
+                         (apply-generic op a1 (t2->t1 a2)))
+                        (else (error "No method for these types"
+                                     (list op type-tags))))))
+              (error "No method for these types"
+                     (list op type-tags)))))))
+
+;; The book mentions a clever way to look for unspecified coercions
+;; by building a chain from the existing coercion procedures.
+;; But to me that sounds terrible for performance. Is that so?
