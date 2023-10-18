@@ -61,3 +61,9 @@
 
   (rec (unique (map type-tag args))))
 
+
+;; Since not all combinations are tested, this apply-generic definition will
+;; not find procedures for different mixed-type definitions of an operation.
+;; For example, (oper type1 type2 type3) might be defined for
+;; (oper type1 type1 type2), but our procedure will not try any combinations
+;; besides same-type and the initial case.
