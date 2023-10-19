@@ -1,6 +1,7 @@
 #lang racket
 
 (provide
+ apply-generic
  type-tag
  contents
  raise)
