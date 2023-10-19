@@ -8,13 +8,15 @@
 
 (define (raise-until-equal from to)
   (let* ((type1 (type-tag from))
-         (type2 (type-tag to))
-         (raise (get 'raise type1)))
-    (and raise
-         (let* ((from-raised (raise from))
-                (type1-raised (type-tag from-raised)))
-           (or (equal? type1-raised type2)
-               (raise-until-equal from-raised to))))))
+         (type2 (type-tag to)))
+    (if (equal? type1 type2)
+        from
+        (let ((raise (get 'raise type1)))
+          (and raise
+               (let* ((from-raised (raise from))
+                      (type1-raised (type-tag from-raised)))
+                 (or (equal? type1-raised type2)
+                     (raise-until-equal from-raised to))))))))
 
 
 (define (apply-generic op . args)
