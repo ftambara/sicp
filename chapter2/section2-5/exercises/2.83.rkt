@@ -1,5 +1,10 @@
 #lang racket
 
+(provide
+ type-tag
+ contents
+ raise)
+
 (define get void)
 (define put void)
 
