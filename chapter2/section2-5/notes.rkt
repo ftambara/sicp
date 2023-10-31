@@ -198,10 +198,15 @@
 
   ;; representation of terms and term lists
   (define empty-termlist '())
-  (define (adjoin-term term term-list) (cons term term-list)) ; consider skipped orders
-  (define (empty-termlist? term-list) ...)
-  (define (first-term term-list) extract highest-order term)
-  (define (rest-terms term-list) ...)
+  (define (adjoin-term term term-list)
+    ;; Needs to be called with 'term' of a higher order
+    ;; than term-list's max order.
+    (if (=zero? (coeff term))
+      term-list
+      (cons term term-list)))
+  (define (empty-termlist? term-list) (null? term-list))
+  (define (first-term term-list) (car term-list))
+  (define (rest-terms term-list) (cdr term-list))
   (define (make-term order coeff) (cons order coeff))
   (define (order term) (car term))
   (define (coeff term) (cdr term))
@@ -212,7 +217,7 @@
                  (add-terms (term-list p1) (term-list p2)))
       (error "Polys not in same var: ADD-POLY" (list p1 p2))))
 
-  ;; ⟨procedures used by add-poly⟩
+  ;; procedures used by add-poly
   (define (add-terms tl1 tl2)
     (cond ((empty-termlist? tl1) tl2)
           ((empty-termlist? tl2) tl1)
