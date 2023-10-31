@@ -181,3 +181,86 @@
 ;; The book mentions a clever way to look for unspecified coercions
 ;; by building a chain from the existing coercion procedures.
 ;; But to me that sounds terrible for performance. Is that so?
+
+;; Symbolic Algebra
+
+(define (install-polynomial-package)
+  ;; internal procedures
+
+  ;; representation of poly
+  (define (make-poly variable term-list) (cons variable term-list))
+  (define (variable poly) (car poly))
+  (define (term-list poly) (cdr poly))
+  (define (same-variable? v1 v2)
+    (and (variable? v1) (variable? v2) (eq? v1 v2)))
+  (define (variable? e)
+    (symbol? e))
+
+  ;; representation of terms and term lists
+  (define empty-termlist '())
+  (define (adjoin-term term term-list) (cons term term-list)) ; consider skipped orders
+  (define (empty-termlist? term-list) ...)
+  (define (first-term term-list) extract highest-order term)
+  (define (rest-terms term-list) ...)
+  (define (make-term order coeff) (cons order coeff))
+  (define (order term) (car term))
+  (define (coeff term) (cdr term))
+
+  (define (add-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+      (make-poly (variable p1)
+                 (add-terms (term-list p1) (term-list p2)))
+      (error "Polys not in same var: ADD-POLY" (list p1 p2))))
+
+  ;; ⟨procedures used by add-poly⟩
+  (define (add-terms tl1 tl2)
+    (cond ((empty-termlist? tl1) tl2)
+          ((empty-termlist? tl2) tl1)
+          (else 
+            (let ((t1 (first-term tl1))
+                  (t2 (first-term tl2)))
+              (cond ((> (order t1) (order t2))
+                     (adjoin-term t1 (add-terms (rest-terms tl1) tl2)))
+                    ((< (order t1) (order t2))
+                     (adjoin-term t2 (add-terms tl1 (rest-terms tl2))))
+                    (else 
+                      (adjoin-term
+                        ;; Use generic add to allow coefficients
+                        ;; to be of any type
+                        (make-term (order t1) (add (coeff t1) (coeff t2)))
+                        (add-terms (rest-terms tl1) 
+                                   (rest-terms tl2)))))))))
+
+
+  (define (mul-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+      (make-poly (variable p1)
+                 (mul-terms (term-list p1) (term-list p2)))
+      (error "Polys not in same var: ADD-POLY" (list p1 p2))))
+
+  ;; procedures used by mul-poly
+  (define (mul-terms tl1 tl2)
+    (if (empty-termlist? tl1)
+      empty-termlist
+      (add-terms (mul-term-by-all-terms (first-term tl1) tl2)
+                 (mul-terms (rest-terms tl1) tl2))))
+
+  (define (mul-term-by-all-terms t1 tl)
+    (if (empty-termlist? tl)
+      empty-termlist
+      (let ((t2 (first-term tl)))
+        (adjoin-term (make-term (+ (order t1) (order t2)) 
+                                (mul (coeff t1) (coeff t2)))
+                     (mul-term-by-all-terms t1 (rest-terms tl))))))
+
+  ;; interface to rest of the system
+  (define (tag p) (attach-tag 'polynomial p))
+  (put 'add '(polynomial polynomial)
+       (lambda (p1 p2) (tag (add-poly p1 p2))))
+  (put 'mul '(polynomial polynomial)
+       (lambda (p1 p2) (tag (mul-poly p1 p2))))
+  (put 'make 'polynomial
+       (lambda (var terms) (tag (make-poly var terms))))
+  'done)
+
+
