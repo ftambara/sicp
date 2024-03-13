@@ -255,6 +255,7 @@
       empty-termlist
       (let ((t2 (first-term tl)))
         (adjoin-term (make-term (+ (order t1) (order t2)) 
+                                ;; Generic mul
                                 (mul (coeff t1) (coeff t2)))
                      (mul-term-by-all-terms t1 (rest-terms tl))))))
 
