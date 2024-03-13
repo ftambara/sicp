@@ -267,5 +267,3 @@
   (put 'make 'polynomial
        (lambda (var terms) (tag (make-poly var terms))))
   'done)
-
-
