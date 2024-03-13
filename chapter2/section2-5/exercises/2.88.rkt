@@ -18,8 +18,12 @@
 
 (define (negate-terms tl)
   (let ((ft (firt-term tl)))
-      (adjoin-term (make-term (order ft) (negate (coeff ft)))
-                   (rest-terms tl))))
+      (adjoin-term
+        (make-term (order ft)
+                   ;; the idea is to follow this strategy until
+                   ;; an ordinary number is finally reached
+                   (negate (coeff ft)))
+        (rest-terms tl))))
 
 (put 'negate 'polynomial
      (lambda (p)
