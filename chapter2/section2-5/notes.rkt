@@ -241,7 +241,7 @@
     (if (same-variable? (variable p1) (variable p2))
       (make-poly (variable p1)
                  (mul-terms (term-list p1) (term-list p2)))
-      (error "Polys not in same var: ADD-POLY" (list p1 p2))))
+      (error "Polys not in same var: MUL-POLY" (list p1 p2))))
 
   ;; procedures used by mul-poly
   (define (mul-terms tl1 tl2)
