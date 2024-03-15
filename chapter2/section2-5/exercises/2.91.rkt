@@ -1,0 +1,50 @@
+#lang racket
+
+;; Required
+(define =zero? void)
+(define add-terms void)
+(define sub-terms void)
+(define adjoin-term void)
+(define mul-term-by-all-terms void)
+(define empty-termlist '())
+(define first-term car)
+(define order car)
+(define coeff cdr)
+(define (make-term order coeff) (cons order coeff))
+(define (same-variable? v1 v2)
+  (and (variable? v1) (variable? v2) (eq? v1 v2)))
+(define (variable? e)
+  (symbol? e))
+(define (make-poly variable term-list) (cons variable term-list))
+(define (variable poly) (car poly))
+(define (term-list poly) (cdr poly))
+
+;; Solution
+(define (div-poly p1 p2)
+  (if (same-variable? (variable p1) (variable p2))
+    (let* ((result (div-terms (term-list p1) (term-list p2)))
+           (quotient (car result))
+           (remainder (cadr result)))
+      (list (make-poly (variable p1) quotient)
+            (make-poly (variable p1) remainder)))
+    (error "Polys not in same var: DIV-POLY" (list p1 p2))))
+
+(define (div-terms tl1 tl2)
+  (if (=zero? tl1)
+    (list empty-termlist empty-termlist)
+    (let ((t1 (first-term tl1))
+          (t2 (first-term tl2)))
+      (if (< (order t1) (order t2))
+        (list empty-termlist tl1)
+        (let* ((result (div-term t1 t2))
+               (result-rec
+                 (div-terms
+                   (sub-terms tl1 (mul-term-by-all-terms result tl2))
+                   tl2))
+               (quotient (car result-rec))
+               (remainder (cadr result-rec)))
+          (list (adjoin-term result quotient) remainder))))))
+
+(define (div-term t1 t2)
+  (make-term (- (order t1) (order t2))
+             (/ (coeff t1) (coeff t2))))
