@@ -26,8 +26,14 @@
 
 
 (let ((acc (make-account 100 'secret)))
-  (check-exn exn:fail? (lambda () ((acc 'wrong-pass 'withdraw) 30)))
-  (check-exn exn:fail? (lambda () (acc 'secret 'wrong-action) 30))
+  (check-exn
+    exn:fail?
+    (lambda () ((acc 'wrong-pass 'withdraw) 30))
+    "Incorrect password")
+  (check-exn
+    exn:fail?
+    (lambda () (acc 'secret 'wrong-action) 30)
+    "Incorrect action wrong-action")
   (check-eq? ((acc 'secret 'withdraw) 30) 70)
   (check-eq? ((acc 'secret 'withdraw) 30) 40)
   (check-eq? ((acc 'secret 'deposit) 10) 50))
