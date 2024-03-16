@@ -1,0 +1,30 @@
+#lang racket
+
+(require rackunit)
+
+(define (make-monitored f)
+  (let ((calls 0))
+    (define (mf arg)
+      (cond ((eq? arg 'how-many-times)
+             calls)
+            ((eq? arg 'reset-count)
+             (set! calls 0)
+             0)
+            (else
+              (set! calls (+ calls 1))
+              (f arg))))
+    mf))
+
+(let ((mf (make-monitored sqrt)))
+  (check-eq? (mf 'how-many-times) 0)
+  (check-eq? (mf 4) 2)
+  (check-eq? (mf 'how-many-times) 1)
+  (check-eq? (mf 'reset-count) 0)
+  (check-eq? (mf 9) 3)
+  (check-eq? (mf 100) 10)
+  (check-eq? (mf 'how-many-times) 2)
+  (let ((mf2 (make-monitored sqrt)))
+      (check-eq? (mf2 'how-many-times) 0)
+      (check-eq? (mf 4) 2)
+      (check-eq? (mf 'how-many-times) 3)
+      (check-eq? (mf2 'how-many-times) 0)))
