@@ -2,11 +2,11 @@
 
 (require rackunit)
 
-(define (make-accumulator count)
+(define (make-accumulator sum)
   (lambda (num)
     (begin
-      (set! count (+ count num))
-      count)))
+      (set! sum (+ sum num))
+      sum)))
 
 (let ((acc (make-accumulator 0)))
   (check-eq? (acc 5) 5)
