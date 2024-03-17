@@ -7,6 +7,8 @@
 
 (require rackunit)
 
+;; Section 3.1.1
+
 (define withdraw
   ;; If let's balance declaration is evaluated once, why is set! needed?
   (let ((balance 100))
@@ -62,6 +64,8 @@
      (check-eq? ((account 'withdraw) 10) 90)
      (check-eq? ((account 'deposit) 20) 110)))
 
+;; Section 3.1.2
+
 ;; Why use objects?
 ;; If we knew every minute physical property of the action of throwing a coin,
 ;; we could predict which side it would land on. Since we don't, we simply
@@ -72,3 +76,17 @@
 ;; know and keep track of every parameter the system needs, and interaction
 ;; would leak other processes' internals into every part of our system.
 ;; Everything would be related, there would be no system-level abstraction.
+
+;; Section 3.1.3
+
+(define (factorial n)
+  (let ((total 1))
+    (define (iter)
+      (if (or (= n 0) (= n 1))
+        total
+        (begin (set! total (* total n))
+               (set! n (- n 1))
+               (iter))))
+    (iter)))
+
+(factorial 5)
