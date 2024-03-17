@@ -2,6 +2,8 @@
 
 (require rackunit)
 
+(provide make-account)
+
 (define (make-account balance password)
   (define (protect-by-pass f)
     (lambda (pass-attempt arg)
