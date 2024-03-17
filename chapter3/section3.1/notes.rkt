@@ -61,3 +61,14 @@
    (begin
      (check-eq? ((account 'withdraw) 10) 90)
      (check-eq? ((account 'deposit) 20) 110)))
+
+;; Why use objects?
+;; If we knew every minute physical property of the action of throwing a coin,
+;; we could predict which side it would land on. Since we don't, we simply
+;; understand the coin toss as a complex system and observe the result, instead
+;; of computing it ourselves.
+;; In the same way, to one part of the system, other complex parts appear to
+;; change with time. If we wanted to use a function instead, we would have to
+;; know and keep track of every parameter the system needs, and interaction
+;; would leak other processes' internals into every part of our system.
+;; Everything would be related, there would be no system-level abstraction.
