@@ -15,127 +15,98 @@
 ;; Evaluation of (factorial-rec 6)
 
 ;; (factorial-rec 6)
-;; FRAME I
-;; n = 6
+;;       ┌─FRAME I─┐
+;; E1 -> │ n = 6   │ -> GLOBAL ENVIRONMENT
+;;       └─────────┘
 ;;
-;; (= 6 1) -> false
-;; -> else
 ;; (* 6 (factorial-rec 5))
+;;       ┌─FRAME II─┐
+;; E2 -> │ n = 5    │ -> GLOBAL ENVIRONMENT
+;;       └──────────┘
 ;;
-;; FRAME II
-;; n = 5
-;;
-;; (= 5 1) -> false
-;; -> else
 ;; (* 5 (factorial-rec 4))
+;;       ┌─FRAME III─┐
+;; E3 -> │ n = 4     │ -> GLOBAL ENVIRONMENT
+;;       └───────────┘
 ;;
-;; FRAME III
-;; n = 4
-;;
-;; (= 4 1) -> false
-;; -> else
 ;; (* 4 (factorial-rec 3))
+;;       ┌─FRAME IV─┐
+;; E4 -> │ n = 4    │ -> GLOBAL ENVIRONMENT
+;;       └──────────┘
 ;;
-;; FRAME IV
-;; n = 3
-;;
-;; (= 3 1) -> false
-;; -> else
 ;; (* 3 (factorial-rec 2))
+;;       ┌─FRAME V─┐
+;; E5 -> │ n = 2   │ -> GLOBAL ENVIRONMENT
+;;       └─────────┘
 ;;
-;; FRAME V
-;; n = 2
-;;
-;; (= 2 1) -> false
-;; -> else
 ;; (* 2 (factorial-rec 1))
+;;       ┌─FRAME VI─┐
+;; E6 -> │ n = 1    │ -> GLOBAL ENVIRONMENT
+;;       └──────────┘
 ;;
-;; FRAME VI
-;; n = 1
-;;
-;; (= 1 1) -> true
-;; -> then
 ;; 1
-;;
-;; (* 2 1) -> 2
-;; (* 3 2) -> 6
-;; (* 4 6) -> 24
-;; (* 5 24) -> 120
-;; (* 6 120) -> 720
+;; (* 2 1)
+;; (* 3 2)
+;; (* 4 6)
+;; (* 5 24)
+;; (* 6 120)
+;; 720
 
 
 ;; Evaluation of (factorial-iter 6)
 
 ;; (factorial-iter 6)
-;; FRAME I
-;; n = 6
+;;       ┌─FRAME I─┐
+;; E1 -> │ n = 6   │ -> GLOBAL ENVIRONMENT
+;;       └─────────┘
 ;;
 ;; (fact-iter 1 1 6)
+;;       ┌───FRAME II────┐
+;; E2 -> │ product = 1   │ -> GLOBAL ENVIRONMENT
+;;       │ counter = 1   │
+;;       │ max-count = 6 │
+;;       └───────────────┘
 ;;
-;; FRAME II
-;; product = 1
-;; counter = 1
-;; max-count = 6
-;;
-;; (> 1 6) -> false
-;; -> else
-;; (fact-iter (* 1 1) (+ 1 1) 6)
 ;; (fact-iter 1 2 6)
+;;       ┌───FRAME III───┐
+;; E3 -> │ product = 1   │ -> GLOBAL ENVIRONMENT
+;;       │ counter = 2   │
+;;       │ max-count = 6 │
+;;       └───────────────┘
 ;;
-;; FRAME III
-;; product = 1
-;; counter = 2
-;; max-count = 6
-;;
-;; (> 2 6) -> false
-;; -> else
-;; (fact-iter (* 2 1) (+ 2 1) 6)
 ;; (fact-iter 2 3 6)
+;;       ┌───FRAME IV────┐
+;; E4 -> │ product = 2   │ -> GLOBAL ENVIRONMENT
+;;       │ counter = 3   │
+;;       │ max-count = 6 │
+;;       └───────────────┘
 ;;
-;; FRAME IV
-;; product = 2
-;; counter = 3
-;; max-count = 6
-;;
-;; (> 3 6) -> false
-;; -> else
-;; (fact-iter (* 3 2) (+ 3 1) 6)
 ;; (fact-iter 6 4 6)
+;;       ┌────FRAME V────┐
+;; E5 -> │ product = 6   │ -> GLOBAL ENVIRONMENT
+;;       │ counter = 4   │
+;;       │ max-count = 6 │
+;;       └───────────────┘
 ;;
-;; FRAME V
-;; product = 6
-;; counter = 4
-;; max-count = 6
-;;
-;; (> 4 6) -> false
-;; -> else
-;; (fact-iter (* 4 6) (+ 4 1) 6)
 ;; (fact-iter 24 5 6)
+;;       ┌────FRAME V────┐
+;; E6 -> │ product = 24  │ -> GLOBAL ENVIRONMENT
+;;       │ counter = 5   │
+;;       │ max-count = 6 │
+;;       └───────────────┘
 ;;
-;; FRAME VI
-;; product = 24
-;; counter = 5
-;; max-count = 6
-;;
-;; (> 5 6) -> false
-;; -> else
-;; (fact-iter (* 5 24) (+ 5 1) 6)
 ;; (fact-iter 120 6 6)
+;;       ┌───FRAME VI────┐
+;; E7 -> │ product = 120 │ -> GLOBAL ENVIRONMENT
+;;       │ counter = 6   │
+;;       │ max-count = 6 │
+;;       └───────────────┘
 ;;
-;; FRAME VII
-;; product = 120
-;; counter = 6
-;; max-count = 6
-;;
-;; (> 6 6) -> false
-;; -> else
-;; (fact-iter (* 6 120) (+ 6 1) 6)
 ;; (fact-iter 720 7 6)
+;;       ┌───FRAME VII───┐
+;; E8 -> │ product = 720 │ -> GLOBAL ENVIRONMENT
+;;       │ counter = 7   │
+;;       │ max-count = 6 │
+;;       └───────────────┘
 ;;
-;; FRAME VIII
-;; product = 720
-;; counter = 7
-;; max-count = 6
-;; (> 7 6) -> true
-;; -> then
 ;; 720
