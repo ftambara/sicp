@@ -41,40 +41,37 @@
 ;;        v           v
 ;;        'a          'b
 ;;
-;; y -> [ ● | ●-]-->[ ● | ╱ ]
-;;        |           |
-;;        v           v
-;;        'c          'd
-;;
-;; z is a new list, append does not reuse pairs
-;;
-;; z -> [ ● | ●-]-->[ ● | ●-]-->[ ● | ●-]-->[ ● | ╱ ]
-;;        |           |           |           |
-;;        v           v           v           v
-;;        'a          'b          'c          'd
+;; z -> [ ● | ●-]-->[ ● | ● ]
+;;        |           |    |
+;;        v           v    |
+;;        'a          'b   |
+;;                         |
+;;                         |
+;;                         v
+;;                    y -> [ ● | ●-]-->[ ● | ╱ ]
+;;                           |           |
+;;                           v           v
+;;                           'c          'd
 
 z
 ;; (a b c d)
+
 (cdr x)
 ;; '(b)
 
 (define w (append! x y))
 
-;; Now append not only reuses pairs but also mutates 
-;; the last pair of the first list
-;;
 ;; x,w -> [ ● | ●-]-->[ ● | ● ]
 ;;         |           |    |
 ;;         v           v    |
 ;;         'a          'b   |
 ;;                          |
-;;         -----------------
-;;        |
-;;        v
-;; y -> [ ● | ●-]-->[ ● | ╱ ]
-;;        |           |
-;;        v           v
-;;        'c          'd
+;;                          |
+;;                          v
+;;                      y -> [ ● | ●-]-->[ ● | ╱ ]
+;;                             |           |
+;;                             v           v
+;;                             'c          'd
 
 (cdr x)
 ;; '(b c d)
