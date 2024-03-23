@@ -2,12 +2,14 @@
 
 (require rackunit)
 
-(define (append x y)
+(provide mappend! last-pair mlist)
+
+(define (mappend x y)
   (if (null? x)
     y
-    (cons (car x) (append (cdr x) y))))
+    (mcons (mcar x) (mappend (mcdr x) y))))
 
-(define (append! l1 l2)
+(define (mappend! l1 l2)
   (set-mcdr! (last-pair l1) l2)
   l1)
 
@@ -27,14 +29,14 @@
   (check-equal? l1 (mcons 1 (mcons 2 (mcons 3 null))))
   (check-equal? (last-pair l1) (mcons 3 null))
   (check-equal? (begin
-                  (append! l1 l2)
+                  (mappend! l1 l2)
                   l1)
                 (mlist 1 2 3 6 5 4)))
 
 ;; Solution
-(define x (list 'a 'b))
-(define y (list 'c 'd))
-(define z (append x y))
+(define x (mlist 'a 'b))
+(define y (mlist 'c 'd))
+(define z (mappend x y))
 
 ;; x -> [ ● | ●-]-->[ ● | ╱ ]
 ;;        |           |
@@ -53,13 +55,13 @@
 ;;                           v           v
 ;;                           'c          'd
 
-z
+;; z
 ;; (a b c d)
 
-(cdr x)
+;; (mcdr x)
 ;; '(b)
 
-(define w (append! x y))
+(define w (mappend! x y))
 
 ;; x,w -> [ ● | ●-]-->[ ● | ● ]
 ;;         |           |    |
@@ -73,5 +75,5 @@ z
 ;;                             v           v
 ;;                             'c          'd
 
-(cdr x)
+;; (mcdr x)
 ;; '(b c d)
