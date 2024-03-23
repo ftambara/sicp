@@ -28,31 +28,31 @@
 ;;        ┆         └──────────────────────┘  There is an additional
 ;;        ┆                 ┆                 procedure object created
 ;;  make-withdraw   ┌─FRAME II──────┐         that creates FRAME I
-;;        ┆         │ balance = 1̶0̶0̶ │╴╴╴┐
+;;        ┆         │ balance = 1̶0̶0̶ │╴╴╴┐     with params: balance
 ;;    ╱╲  ╱╲        └───────────────┘   ┆
 ;;   ╱  ╲╱  ╲           W1    ┆  50     ┆
 ;;   ╲  ╱╲  ╱            ╱╲  ╱╲         ┆
 ;;    ╲╱  ╲╱            ╱  ╲╱  ╲        ┆
 ;;    |                 ╲  ╱╲  ╱        ┆
 ;;    V                  ╲╱  ╲╱         ┆
+;;  params: initial-amount              ┆
 ;;  (let ((balance ...)) |              ┆
 ;;      (...))           v              ┆
-;;                   (lambda (amount)   ┆
+;;                   params: amount     ┆
+;;                   (if (>= balance amount)
 ;;                     (...))           ┆
 ;;                                      ┆
 ;;        ┌─FRAME III───┐               ┆
 ;;        │ amount = 50 │╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘
 ;;        └─────────────┘
-;;                ┆
-;;           ╱╲  ╱╲    
-;;          ╱  ╲╱  ╲
-;;          ╲  ╱╲  ╱
-;;           ╲╱  ╲╱
-;;           |
-;;           v
-;;           (if (>= balance amount)
-;;             (...))
-
+;;          Change balance in FRAME II
+;;          and return new balance (50)
 
 ;; The main difference with the let-less version is that
 ;; there are more frames and procedure objects created.
+
+;; Edit:
+;; In the original version, there were more procedure objects than
+;; there were lambda expressions in the code. That cannot be, as
+;; each procedure object is only created by evaluating a lambda
+;; expression.

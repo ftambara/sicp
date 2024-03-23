@@ -26,6 +26,7 @@
 
 ;; GLOBAL
 ;; #<procedure:make-account>
+;; acc = #<procedure:dispatch>
 
 ;; (define acc (make-account 50))
 ;; FRAME 1 -> GLOBAL
@@ -41,6 +42,7 @@
 ;;
 ;; FRAME 3 -> FRAME 1
 ;; amount = 40
+;; Change balance in FRAME 1 to 90
 ;; RETURN 90
 ;;
 ;; ((acc 'withdraw) 60)
@@ -49,6 +51,7 @@
 ;;
 ;; FRAME 5 -> FRAME 1
 ;; amount = 60
+;; Change balance in FRAME 1 to 30
 ;; RETURN 30
 
 ;; Local state is kept in FRAME 1's balance variable
