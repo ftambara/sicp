@@ -31,5 +31,5 @@
     (add-poly p1 (convert-poly (variable p1) p2))))
 
 (define (convert-poly var poly)
-  ;; Mistery
+  ;; Mystery
   void)

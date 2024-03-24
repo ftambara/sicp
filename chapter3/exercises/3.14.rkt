@@ -75,4 +75,4 @@
 ;; w points to the reversed list
 ;; v is only mutated on the first iteration, since v points to the first pair
 ;; of the original list.
-;; after running (mistery v), then, v points to the last pair of the reversed list.
+;; after running (mystery v), then, v points to the last pair of the reversed list.
