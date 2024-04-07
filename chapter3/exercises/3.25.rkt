@@ -30,9 +30,15 @@
       (define (insert-iter subtable rest-keys)
         (let ((next (assoc (car rest-keys) (mcdr subtable))))
           (if next
-            (if (null? (cdr rest-keys))
-              (set-mcdr! next value)
-              (insert-iter next (cdr rest-keys)))
+            (cond ((not (pair? (mcdr next)))
+                   ;; If next is a record instead of a subtable, we need to
+                   ;; discard its value and replace it with a new subtable.
+                   (set-mcdr! next (create-subtables rest-keys value null)))
+                  ((null? (cdr rest-keys))
+                   ;; If this is the last key, update the value (this
+                   ;; overwrites the previous value/subtable).
+                   (set-mcdr! next value))
+                  (else (insert-iter next (cdr rest-keys))))
             (set-mcdr! subtable
                        (create-subtables rest-keys value (mcdr subtable))))))
 
