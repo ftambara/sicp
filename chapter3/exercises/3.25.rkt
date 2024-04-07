@@ -24,7 +24,7 @@
         (if (null? keys)
           value
           (mcons (mcons (car keys)
-                        (create-subtables (cdr keys) value tail))
+                        (create-subtables (cdr keys) value null))
                  tail)))
 
       (define (insert-iter subtable rest-keys)
