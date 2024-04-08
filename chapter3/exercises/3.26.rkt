@@ -4,6 +4,8 @@
   compatibility/mlist
   rackunit)
 
+(provide make-table)
+
 ;; To implement a table using binary trees, we replace the backbone list
 ;; with a binary tree. Each node in the tree is a list of four elements:
 ;; the node key, the left subtree, the right subtree, and the record
