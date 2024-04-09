@@ -67,3 +67,83 @@
 
 (define (empty-queue? q)
   (null? (front-ptr q)))
+
+;; Tables
+
+(define (lookup key table)
+  (let ((record (assoc key (mcdr table))))
+    (if record
+      (mcdr record)
+      false)))
+
+(define (assoc key records)
+  (cond ((null? records) false)
+        ((equal? key (mcar (mcar records))) (mcar records))
+        (else (assoc key (mcdr records)))))
+
+(define (insert! key value table)
+  (let ((record (assoc key (cdr table))))
+    (if record
+      (set-mcdr! record value)
+      ;; new key
+      (set-mcdr! table (mcons (mcons key value) (mcdr table)))))
+  'ok)
+
+(define (make-table)
+  (mcons '*table* null))
+
+(define (lookup-2d key1 key2 table)
+  (let ((subtable (assoc key1 (mcdr table))))
+    (if subtable
+      (let ((record (assoc key2 (mcdr subtable))))
+        (if record
+          (mcdr record)
+          false))
+      false)))
+
+(define (insert-2d! key1 key2 value table)
+  (let ((subtable (assoc key1 (mcdr table))))
+    (if subtable
+      (let ((record (assoc key2 (mcdr subtable))))
+        (if record
+          (set-mcdr! record value)
+          ;; new sub-level key
+          (set-mcdr! subtable (mcons (mcons key2 value) (mcdr subtable)))))
+      ;; new top level key
+      (set-mcdr! table
+                 (mcons (list key1 (mcons key2 value))
+                       (mcdr table)))))
+  'ok)
+
+(define (make-table-proc)
+  (let ((table (mcons '*table* null)))
+    (define (lookup key1 key2)
+      (let ((subtable (assoc key1 (cdr table))))
+        (if subtable
+          (let ((record (assoc key2 (cdr subtable))))
+            (if record
+              (cdr record)
+              false))
+          false)))
+    (define (insert! key1 key2 value)
+      (let ((subtable (assoc key1 (mcdr table))))
+        (if subtable
+          (let ((record (assoc key2 (mcdr subtable))))
+            (if record
+              (set-mcdr! record value)
+              ;; new sub-level key
+              (set-mcdr! subtable (mcons (mcons key2 value) (mcdr subtable)))))
+          ;; new top level key
+          (set-mcdr! table
+                     (cons (list key1 (cons key2 value))
+                           (cdr table)))))
+      'ok)
+    (define (dispatch m)
+      (cond ((eq? m 'lookup) lookup)
+            ((eq? m 'insert!) insert!)
+            (else (error "invalid method" m))))
+    dispatch))
+
+(define operation-table (make-table))
+(define put (operation-table 'insert!))
+(define get (operation-table 'lookup))
