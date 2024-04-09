@@ -45,6 +45,8 @@
 ;; After computing (memo-fib 2), all larger Fibonacci numbers require
 ;; only one new computation plus one table lookup. Thus, an increase
 ;; of one in the input results in two new computations, which is O(n).
+;; That is if we ignore table lookup time, which may be O(n^2) in the book's
+;; implementation.
 
 ;; 3. Would the scheme still work if we had simply deﬁned 
 ;;  memo-fib to be (memoize fib)?
