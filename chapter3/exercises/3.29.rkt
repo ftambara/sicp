@@ -11,4 +11,5 @@
   (inverter! in1 a)
   (inverter! in2 b)
   (and-gate! a b c)
-  (inverter! c out)))
+  (inverter! c out)
+  'ok))

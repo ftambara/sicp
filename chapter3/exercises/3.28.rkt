@@ -19,4 +19,5 @@
         (set-signal! out (logic-or (get-signal in1)
                                    (get-signal in2))))))
   (add-action! in1 or-gate-proc!)
-  (add-action! in2 or-gate-proc!))
+  (add-action! in2 or-gate-proc!)
+  'ok)
