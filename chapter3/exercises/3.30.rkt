@@ -26,7 +26,25 @@
 ;; ripple-carry adder, expressed in terms of the delays for and-gates,
 ;; or-gates, and inverters?
 
-;; ripple-carry-delay = n * full-adder-delay
-;; full-adder-delay = 2 * half-adder-delay + or-gate-delay
-;; half-adder-delay = max(or-gate-delay, and-gate-delay + inverter-delay) 
-;;                    + and-gate-delay
+;; Assuming n * fa-cout-delay > fa-s-delay
+;; rc-delay = n * fa-cout-delay
+;;
+;; fa-cout-delay = max(ha-c-delay, ha-s-delay + ha-c-delay)
+;;                     + or-gate-delay
+;;
+;; since ha-a-s-delay >= 0
+;; fa-cout-delay = ha-s-delay + ha-c-delay + or-gate-delay
+;;
+;; ha-s-delay = max(or-gate-delay, and-gate-delay + inverter-delay)
+;;              + and-gate-delay
+;; ha-c-delay = and-gate-delay
+;;
+;; if or-gate-delay > and-gate-delay + inverter-delay:
+;; fa-cout-delay = (or-gate-delay + and-gate-delay) + and-gate-delay + or-gate-delay
+;; fa-cout-delay = 2 * (or-gate-delay + and-gate-delay)
+;;
+;; else:
+;; fa-cout-delay = (and-gate-delay + inverter-delay + and-gate-delay)
+;;                 + and-gate-delay
+;;                 + or-gate-delay
+;; fa-cout-delay = 3 * and-gate-delay + inverter-delay + or-gate-delay
