@@ -1,8 +1,8 @@
 #lang racket
 
-(define make-wire void)
-(define inverter! void)
-(define and-gate! void)
+(require
+  "circuits.rkt"
+  rackunit)
 
 (define (or-gate! in1 in2 out)
   (let ((a (make-wire))
@@ -13,3 +13,15 @@
   (and-gate! a b c)
   (inverter! c out)
   'ok))
+
+;; Tests
+(define in1 (make-wire))
+(define in2 (make-wire))
+(define out (make-wire))
+
+(or-gate! in1 in2 out)
+
+(check-equal? (get-signal out) 0)
+(set-signal! in1 1)
+(propagate!)
+(check-equal? (get-signal out) 1)

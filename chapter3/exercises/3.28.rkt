@@ -1,6 +1,5 @@
 #lang racket
 
-;; To be added later
 (define add-action! void)
 (define after-delay void)
 (define or-gate-delay void)
@@ -21,3 +20,5 @@
   (add-action! in1 or-gate-proc!)
   (add-action! in2 or-gate-proc!)
   'ok)
+
+;; Tested for circuits.rkt
