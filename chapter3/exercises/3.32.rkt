@@ -31,7 +31,7 @@
 ;; b is set to 0
 ;;  -> Schedule an AND action
 ;;
-;; all four and actions are checked with the same unvarying inputs
+;; all four and actions are checked with unvarying inputs
 ;; all wires end up with signal 0, the correct state
 (check-eq? (get-signal a) 0)
 (check-eq? (get-signal b) 0)
