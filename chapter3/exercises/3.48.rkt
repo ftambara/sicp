@@ -66,6 +66,25 @@
             (else (error "Unknown request: MAKE-ACCOUNT" m))))
     dispatch))
 
+(define (except-max-id accounts)
+  (let ((max-account (max-id-account accounts)))
+    (filter (lambda (acc) (not (eq? acc max-account)))
+            accounts)))
+
+(define (max-id-account accounts)
+  (define (loop max-id accounts)
+    (cond ((null? accounts) max-id)
+          ((> ((car accounts) 'id) (max-id 'id))
+           (loop (car accounts) (cdr accounts)))
+          (else (loop max-id (cdr accounts)))))
+  (loop (car accounts) accounts))
+
+(define (serialized-in-order accounts proc)
+  (if (null? accounts)
+    proc
+    (serialized-in-order (except-max-id accounts)
+                         (((max-id-account accounts) 'serializer) proc))))
+
 (define (exchange account1 account2)
  (let ((difference (- (account1 'balance)
                     (account2 'balance))))
@@ -75,13 +94,15 @@
 (define (serialized-exchange account1 account2)
  (let ((serializer1 (account1 'serializer))
        (serializer2 (account2 'serializer)))
-  ((serializer1 (serializer2 exchange))
+   ((serialized-in-order (list account1 account2) exchange)
    account1
    account2)))
 
 (define a1 (make-account-and-serializer 10))
 (define a2 (make-account-and-serializer 20))
 
+(check-equal? (max-id-account (list a1 a2)) a2)
+(check-equal? (except-max-id (list a1 a2)) (list a1))
 
 (check-eq? (a1 'id) 1)
 (check-eq? (a2 'id) 2)
