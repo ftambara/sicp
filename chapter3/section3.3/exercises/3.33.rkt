@@ -1,7 +1,7 @@
 #lang racket
 
 (require 
-  "constraints.rkt"
+  "../../modules/constraints.rkt"
   rackunit)
 
 (define (averager! a b c)

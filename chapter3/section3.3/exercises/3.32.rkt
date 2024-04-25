@@ -1,7 +1,7 @@
 #lang racket
 
 (require
-  "circuits.rkt"
+  "../../modules/circuits.rkt"
   rackunit)
 
 (define a (make-wire))

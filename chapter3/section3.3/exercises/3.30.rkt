@@ -1,7 +1,7 @@
 #lang racket
 
 (require
-  "circuits.rkt"
+  "../../modules/circuits.rkt"
   rackunit)
 
 (define (ripple-carry-adder! a-list b-list s-list c)

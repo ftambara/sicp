@@ -1,7 +1,7 @@
 #lang racket
 
 (require
-  "circuits.rkt"
+  "../../modules/circuits.rkt"
   rackunit)
 
 (define (or-gate! in1 in2 out)

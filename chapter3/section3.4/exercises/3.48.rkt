@@ -31,7 +31,7 @@
 ;; an appropriate message.)
 
 (require
-  "serializer.rkt"
+  "../../modules/serializer.rkt"
   rackunit)
 
 (define (make-counter)

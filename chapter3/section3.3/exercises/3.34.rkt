@@ -1,7 +1,7 @@
 #lang racket
 
 (require
-  "constraints.rkt"
+  "../../modules/constraints.rkt"
   rackunit)
 
 ;; Louis Reasoner wants to build a squarer, a
