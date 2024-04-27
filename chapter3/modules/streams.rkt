@@ -7,6 +7,7 @@
   the-empty-stream
   stream-display
   stream-map-book
+  stream-filter-book
   stream-ref-book
   stream-enumerate-interval)
 
@@ -27,6 +28,14 @@
     (stream-cons #:eager (proc (stream-car stream))
                  (stream-map-book proc (stream-cdr stream)))))
 
+(define (stream-filter-book pred stream)
+  (if (stream-null? stream)
+    the-empty-stream
+    (if (pred (stream-car stream))
+      (stream-cons #:eager (stream-car stream)
+                   (stream-filter-book pred (stream-cdr stream)))
+      (stream-filter-book pred (stream-cdr stream)))))
+
 (define (stream-for-each-book proc stream)
   (if (stream-null? stream)
     'done
@@ -40,7 +49,7 @@
                    stream))
 
 (define (stream-enumerate-interval start end)
-  (if (>= start end)
+  (if (> start end)
     empty-stream
     (stream-cons #:eager start
                  (stream-enumerate-interval (add1 start) end))))
