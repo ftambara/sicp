@@ -62,7 +62,7 @@
 ;; really slow
 
 ;; Calculate times of getting the second prime in the range
-(displayln "Traditional style second prime")
+;; (displayln "Traditional style second prime")
 (define (prime-ref nth start end)
   (cond [(>= start end) (error "No primes in range")]
         [(prime? start)
@@ -70,7 +70,7 @@
            start
            (prime-ref (sub1 nth) (add1 start) end))]
         [else (prime-ref nth (add1 start) end)]))
-(time (prime-ref 2 1000000 10000000))
+;; (time (prime-ref 2 1000000 10000000))
 ;; cpu time: 9 real time: 10 gc time: 1
 
 ;; (displayln "Checking sequence-style second prime in range")
@@ -112,3 +112,45 @@ think it's correct to say that the output of the stream-filter is:
 Where pred is prime?, stream is (stream-enumerate-interval (+ low 1) high),
 low is 10008 and high is 1000000.
 |#
+
+;; Erastothenes sieve
+
+(define (integers-starting-from num)
+  (stream-cons num (integers-starting-from (add1 num))))
+
+(define (divisible? a b)
+  (= (remainder a b) 0))
+
+(define (sieve stream)
+  (stream-cons (stream-first stream)
+               (sieve (stream-filter
+                        (lambda (x)
+                          (not (divisible? x (stream-first stream))))
+                        (stream-rest stream)))))
+
+(define primes (sieve (integers-starting-from 2)))
+(stream-ref primes 50)
+
+(define (stream-map-all proc . argstreams)
+  (if (null? (car argstreams))
+    empty-stream
+    (stream-cons
+      (apply proc (map stream-first argstreams))
+      (apply stream-map-all proc (map stream-rest argstreams)))))
+
+(define (add-streams s1 s2) (stream-map-all + s1 s2))
+(define fib-stream
+  (stream-cons 0
+               (stream-cons 1
+                            (add-streams
+                              fib-stream
+                              (stream-cdr fib-stream)))))
+
+(stream-ref fib-stream 2)
+(stream-ref fib-stream 3)
+(stream-ref fib-stream 4)
+(stream-ref fib-stream 5)
+
+(define (scale-stream stream factor)
+  (stream-map (lambda (x) (* factor x))
+              stream))
