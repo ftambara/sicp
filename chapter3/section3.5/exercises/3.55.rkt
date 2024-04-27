@@ -5,9 +5,7 @@
   rackunit)
 
 (define (partial-sums s)
-  (stream-cons (stream-first s)
-               (add-streams (partial-sums s)
-                            (stream-rest s))))
+   (add-streams s (stream-cons 0 (partial-sums s))))
 
 (define ones (stream-cons 1 ones))
 (define integers (stream-cons 1 (add-streams ones integers)))
