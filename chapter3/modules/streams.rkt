@@ -11,7 +11,8 @@
   stream-filter-book
   stream-ref-book
   stream-enumerate-interval
-  add-streams)
+  add-streams
+  scale-stream)
 
 
 (define stream-car stream-first)
@@ -65,3 +66,6 @@
 
 (define (add-streams s1 s2)
   (stream-map-all + s1 s2))
+
+(define (scale-stream stream factor)
+  (stream-map (lambda (x) (* factor x)) stream))
