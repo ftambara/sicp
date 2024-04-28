@@ -4,6 +4,11 @@
   "../../modules/streams.rkt"
   rackunit)
 
+(provide
+  exp-series
+  cosine-series
+  sine-series)
+
 ;; a. The integral of the series a0 + a1x + a2x^2 + a3x^3 + ...
 ;; is the series c + a0x + 1/2 a1x^2 + 1/3 a2x^3 + 1/4 a3x^4 + ... ,
 ;; where c is any constant. Deﬁne a procedure integrate-series that takes
