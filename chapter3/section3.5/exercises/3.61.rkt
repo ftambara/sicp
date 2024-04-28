@@ -5,6 +5,8 @@
   "3.60.rkt"
   rackunit)
 
+(provide invert-unit-series)
+
 ;; Let S be a power series (Exercise 3.59) whose constant term is 1.
 ;; Suppose we want to ﬁnd the power series 1/S, that is, the series X such
 ;; that S X = 1. Write S = 1 + S_R where S_R is the part of S after the
