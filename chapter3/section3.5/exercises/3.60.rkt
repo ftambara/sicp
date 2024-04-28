@@ -5,6 +5,8 @@
   "3.59.rkt"
   rackunit)
 
+(provide mul-series)
+
 (define (mul-series s1 s2)
   (stream-cons
     (* (stream-first s1) (stream-first s2))
