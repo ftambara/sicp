@@ -55,7 +55,6 @@
       (stream-for-each-book proc (stream-cdr stream)))))
 
 (define (stream-display stream)
-  (display "Stream: ")
   (stream-for-each-book (lambda (elem) (displayln elem))
                    stream))
 
