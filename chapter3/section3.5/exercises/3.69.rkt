@@ -2,8 +2,6 @@
 
 ;; Write a procedure triples that takes three infinite streams, S, T, and U,
 ;; and produces the stream of triples (Si , Tj , Uk) such that i ≤ j ≤ k.
-;; Use triples to generate the stream of all Pythagorean triples of positive
-;; integers, i.e., the triples (i, j, k) such that i ≤ j and i^2 + j^2 = k^2.
 
 (require "../../modules/streams.rkt")
 
@@ -29,3 +27,19 @@
 ;; (1 2 3)
 ;; (2 3 3)
 ;; (1 1 4)
+
+;; Use triples to generate the stream of all Pythagorean triples of positive
+;; integers, i.e., the triples (i, j, k) such that i ≤ j and i^2 + j^2 = k^2.
+
+(define pythagorean-triples
+  (stream-filter
+    (lambda (triple) (= (+ (expt (first triple) 2)
+                           (expt (second triple) 2))
+                        (expt (third triple) 2)))
+    (triples integers integers integers)))
+
+(stream-display (stream-take pythagorean-triples 4))
+;; (3 4 5)
+;; (6 8 10)
+;; (5 12 13)
+;; (9 12 15)

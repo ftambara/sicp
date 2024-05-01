@@ -13,7 +13,9 @@
   stream-enumerate-interval
   add-streams
   mult-streams
-  scale-stream)
+  scale-stream
+  pairs
+  interleave)
 
 
 (define stream-car stream-first)
@@ -72,3 +74,23 @@
 
 (define (scale-stream stream factor)
   (stream-map (lambda (x) (* factor x)) stream))
+
+(define (pairs s t)
+  (let ([s0 (stream-first s)])
+    (stream-cons
+      (list s0 (stream-first t))
+      (interleave
+        (stream-map (lambda (ti) (list s0 ti)) (stream-rest t))
+        (pairs (stream-rest s) (stream-rest t))))))
+
+(define (interleave . streams)
+  (cond [(empty? streams) empty-stream]
+        [(stream-empty? (car streams))
+         (apply interleave (cdr streams))]
+        [else
+          (stream-cons
+            (stream-first (car streams))
+            (apply interleave
+                   (append
+                     (cdr streams)
+                     (list (stream-rest (car streams))))))]))
