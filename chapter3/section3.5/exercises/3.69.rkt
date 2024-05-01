@@ -43,3 +43,7 @@
 ;; (6 8 10)
 ;; (5 12 13)
 ;; (9 12 15)
+
+;; This solution is extremely slow. One attempt to improve it could be
+;; to compute pairs of Tj, Uk only once, and prepend all Si from 0 to j
+;; for each entry.
