@@ -15,7 +15,10 @@
   mult-streams
   scale-stream
   pairs
-  interleave)
+  interleave
+  merge
+  pairs-weighted
+  integers)
 
 
 (define stream-car stream-first)
@@ -94,3 +97,45 @@
                    (append
                      (cdr streams)
                      (list (stream-rest (car streams))))))]))
+
+(define (merge s1 s2)
+  (cond ((stream-null? s1) s2)
+        ((stream-null? s2) s1)
+        (else
+          (let ((s1car (stream-car s1))
+                (s2car (stream-car s2)))
+            (cond ((< s1car s2car)
+                   (stream-cons
+                     s1car
+                     (merge (stream-cdr s1) s2)))
+                  ((> s1car s2car)
+                   (stream-cons
+                     s2car
+                     (merge s1 (stream-cdr s2))))
+                  (else
+                    (stream-cons
+                      s1car
+                      (merge (stream-cdr s1)
+                             (stream-cdr s2)))))))))
+
+(define (merge-weighted pairs1 pairs2 weight)
+  (cond [(stream-empty? pairs1) pairs2]
+        [(stream-empty? pairs2) pairs1]
+        [else
+          (let ([p1 (stream-first pairs1)]
+                [p1cdr (stream-rest pairs1)]
+                [p2 (stream-first pairs2)]
+                [p2cdr (stream-rest pairs2)])
+            (if (< (weight p1) (weight p2))
+              (stream-cons p1 (merge-weighted p1cdr pairs2 weight))
+              (stream-cons p2 (merge-weighted pairs1 p2cdr weight))))]))
+
+(define (pairs-weighted s t weight)
+  (stream-cons
+    (list (stream-first s) (stream-first t))
+    (merge-weighted
+      (stream-map (lambda (ti) (list (stream-first s) ti)) (stream-rest t))
+      (pairs-weighted (stream-rest s) (stream-rest t) weight)
+      weight)))
+
+(define integers (stream-cons 1 (stream-map add1 integers)))
