@@ -15,9 +15,8 @@
 (define (average a b) (/ (+ a b) 2))
 (define (smooth input-signal)
   (stream-map-all average
-                  input-signal
-                  (stream-cons (stream-first input-signal)
-                               input-signal)))
+                  (stream-rest input-signal)
+                  input-signal))
 
 (define (sign-change-detector new last)
   (cond [(and (positive? new) (negative? last)) 1]
