@@ -28,19 +28,11 @@
   int)
 
 (define (RC R C dt)
-  (define (output currents-stream v0)
-    (define (next current-integral currents-stream)
-      ;; returns stream of voltages v as shown in Figure 3.33
-      (let* ([i (stream-first currents-stream)]
-             [vi (+ v0
-                    (/ (stream-first current-integral) C)
-                    (* R i))])
-        (stream-cons
-          vi
-          (next (stream-rest current-integral)
-                (stream-rest currents-stream)))))
-    (next (integral currents-stream 0 dt) currents-stream))
-  output)
+  (lambda (currents-stream v0)
+    ;; v = 1/C integral(i, dt) + R*i
+    (add-streams
+      (scale-stream (integral currents-stream v0 dt) (/ C))
+      (scale-stream currents-stream R))))
 
 (define RC1 (RC 5 1 0.5))
 
