@@ -154,3 +154,83 @@ low is 10008 and high is 1000000.
 (define (scale-stream stream factor)
   (stream-map (lambda (x) (* factor x))
               stream))
+
+;; Using streams
+(define (average . nums)
+  (/ (foldl + 0 nums) (length nums)))
+
+(define (sqrt-improve guess x)
+  (exact->inexact (average guess (/ x guess))))
+
+;; My version
+(define (sqrt-stream x)
+  (define (guess-stream last-guess)
+    (stream-cons last-guess (guess-stream (sqrt-improve last-guess x))))
+  (guess-stream 1))
+
+;; The book's version
+(define (sqrt-stream-book x)
+  (define guesses
+    (stream-cons
+      1
+      ;; This definition depends on memoization to work
+      (stream-map (lambda (guess) (sqrt-improve guess x))
+                  guesses)))
+  guesses)
+
+(define (pi-summands n)
+  (stream-cons (/ n) (stream-map - (pi-summands (+ n 2)))))
+
+(define (partial-sums s)
+   (add-streams s (stream-cons 0 (partial-sums s))))
+
+(define pi-stream
+  (scale-stream (partial-sums (pi-summands 1)) 4))
+
+(define (euler-transform s)
+  (let ([s0 (stream-ref s 0)]   ; S_(n-1)
+        [s1 (stream-ref s 1)]   ; S_n
+        [s2 (stream-ref s 2)])  ; S_(n+1)
+    (stream-cons (- s2 (/ (expt (- s2 s1) 2)
+                          (+ s0 (- (* 2 s1)) s2)))
+                 (euler-transform (stream-rest s)))))
+
+;; make-tableau produces a stream of incrementally transformed streams
+(define (make-tableau transform s)
+  (stream-cons s (make-tableau transform (transform s))))
+
+(define (accelerated-sequence transform s)
+  (stream-map stream-first (make-tableau transform s)))
+
+(stream-filter
+  (lambda (pair) (prime? (+ (car pair) (cadr pair))))
+  int-pairs)
+
+(define integers (stream-cons 1 (stream-map add1 integers)))
+
+(define int-pairs (pairs integers integers))
+
+(define (pairs s t)
+  (let ([s0 (stream-first s)])
+    (stream-cons
+      (cons s0 (stream-first t))
+      (interleave
+        (stream-map (lambda (ti) (cons s0 ti)) (stream-rest t))
+        (pairs (stream-rest s) (stream-rest t))))))
+
+;; For an interleaving process to be correct, any chosen element must appear
+;; if we select enough items from the resulting stream
+(define (interleave s1 s2)
+  (if (stream-empty? s1)
+    s2
+    (stream-cons (stream-first s1)
+                 (interleave s2 (stream-rest s1)))))
+
+;; Streams as signals
+(define (integral integrand initial-value dt)
+  (define int
+    (stream-cons initial-value
+                 ;; Why is integrand scaled by dt?
+                 (add-streams (scale-stream integrand dt)
+                              int)))
+  int)
