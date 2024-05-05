@@ -25,5 +25,14 @@ Here I list some powerful ideas I learnet while reading the book.
     For exambles, see A Picture Language (section 2.2.4) and
     Symbolic Algebra (section 2.5.4)
 - Huffman created a very efficient way of encoding strings of characters.
-
-<!-- ... Take notes from chapter 3 -->
+- The substitution model is simple but unfit for dealing with assignments.
+    That's when the environment model comes in.
+- Sometimes the wires in a circuit are the objects we decide to model. Objects
+    don't always need to correlate to boxy things.
+- Concurrency and mutation are a disastrous and often necessary combination.
+- Streams are a purely functional way of dealing with time. It works by
+    modelling it explicitly, as sequences, intead of sets of states. This
+    forces a change in perspective: we can model by thinking about moments in
+    time and boundaries of state, or we can model transformations on streams
+    of data, by looking at the whole picture and losing the sense of time.
+    Neither strategy works for every case.
