@@ -202,13 +202,7 @@ low is 10008 and high is 1000000.
 (define (accelerated-sequence transform s)
   (stream-map stream-first (make-tableau transform s)))
 
-(stream-filter
-  (lambda (pair) (prime? (+ (car pair) (cadr pair))))
-  int-pairs)
-
 (define integers (stream-cons 1 (stream-map add1 integers)))
-
-(define int-pairs (pairs integers integers))
 
 (define (pairs s t)
   (let ([s0 (stream-first s)])
@@ -217,6 +211,12 @@ low is 10008 and high is 1000000.
       (interleave
         (stream-map (lambda (ti) (cons s0 ti)) (stream-rest t))
         (pairs (stream-rest s) (stream-rest t))))))
+
+(define int-pairs (pairs integers integers))
+
+(stream-filter
+  (lambda (pair) (prime? (+ (car pair) (cadr pair))))
+  int-pairs)
 
 ;; For an interleaving process to be correct, any chosen element must appear
 ;; if we select enough items from the resulting stream
@@ -234,3 +234,26 @@ low is 10008 and high is 1000000.
                  (add-streams (scale-stream integrand dt)
                               int)))
   int)
+
+
+;; Delayed evaluation
+
+(define (delayed-integral delayed-integrand initial-value dt)
+  (define int
+    (stream-cons
+      initial-value
+      (let ((integrand (force delayed-integrand)))
+        (add-streams (scale-stream integrand dt) int))))
+        ;; Why define integrand here, if it can be done in-line?
+  int)
+
+(define (solve f y0 dt)
+  (define y (delayed-integral (delay dy) y0 dt))
+  (define dy (stream-map f y))
+  y)
+
+(stream-ref (solve (lambda (y) y)
+                   1
+                   0.001)
+            1000)
+;; 2.716923932235896
