@@ -20,6 +20,8 @@
   "../../modules/streams.rkt"
   rackunit)
 
+(provide integral)
+
 (define (integral integrand initial-value dt)
   (define int
     (stream-cons initial-value
